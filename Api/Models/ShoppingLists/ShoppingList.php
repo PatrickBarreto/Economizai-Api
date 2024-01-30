@@ -18,9 +18,10 @@ class ShoppingList extends CrudExtension{
     protected string $edited;
 
 
-    public function createShoppingList(stdClass $content) {
+    public function createShoppingList(Request $request) {
+        $content = $request->getBody();
         return $this->insert->setFields(['account_id', 'name', 'type'])
-                            ->setValues([$content->account_id, $content->name, $content->type])
+                            ->setValues([$request->currentUser, $content->name, $content->type])
                             ->runQuery();
     }
 

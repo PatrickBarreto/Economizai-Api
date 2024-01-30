@@ -9,8 +9,8 @@ use stdClass;
 
 class ShoppingList {
 
-    public static function createShoppingList(stdClass $content) {
-        return (new ShoppingListsModel)->createShoppingList($content);
+    public static function createShoppingList(Request $request) {
+        return (new ShoppingListsModel)->createShoppingList($request);
     }
     
 

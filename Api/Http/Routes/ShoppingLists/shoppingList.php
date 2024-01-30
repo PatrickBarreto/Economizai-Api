@@ -5,7 +5,7 @@ use Http\Http;
 
 Http::post('/shopping-list/create', 
             function($request){
-                ShoppingList::createShoppingList($request->getBody());
+                ShoppingList::createShoppingList($request);
                 Http::response();
             },['Auth']);
 
