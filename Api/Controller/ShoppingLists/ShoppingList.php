@@ -5,7 +5,6 @@ namespace Api\Controller\ShoppingLists;
 use Api\Models\ShoppingLists\ShoppingList as ShoppingListsModel;
 use Exception\Exception;
 use Http\Request\Request;
-use stdClass;
 
 class ShoppingList {
 
