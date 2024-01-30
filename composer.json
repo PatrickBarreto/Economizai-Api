@@ -1,0 +1,24 @@
+{
+    "name": "patrick-barreto/economizai",
+    "description": "economizai, projeto que será o auxiliar de compra do dia a dia",
+    "type": "library",
+    "license": "GPL-3.0-or-later",
+    "author": [
+        {
+            "name": "Patrick Barreto"
+        }
+    ],
+    "minimum-stability": "stable",
+    "autoload": {
+        "psr-4": {
+            "Api\\": "./Api"
+        }
+    },
+    "require": {
+        "php":">=7.0",
+        "patrick-barreto/data-base":"^1.0.0",
+        "patrick-barreto/dot-env":"^1.0.0",
+        "patrick-barreto/exception": "^1.0.0",
+        "patrick-barreto/http": "^1.0.0"
+    }
+}
