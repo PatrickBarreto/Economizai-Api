@@ -3,7 +3,7 @@
 namespace Api\Controller\ShoppingLists;
 
 use Api\Models\Categories\BondCategoryProducts\CategoryProducts;
-use Api\Models\Categories\Category;
+use Api\Models\Categories\Category as CategoryModel;
 use Api\Models\ShoppingLists\ShoppingList as ShoppingListsModel;
 use Exception\Exception;
 use Http\Request\Request;
@@ -38,7 +38,7 @@ class ShoppingList {
                 $categories[] = [
                     'categoryId'=> $category['CategoryId'],
                     'categoryName'=> $category['CategoryName'],
-                    'categoryProducts' =>(new Category)->findUsersCategoriesAndProducts($request->currentUser, (int)$category['CategoryId'])
+                    'categoryProducts' =>(new CategoryModel)->findUsersCategoriesAndProducts($request->currentUser, (int)$category['CategoryId'])
                 ];
             }
          
