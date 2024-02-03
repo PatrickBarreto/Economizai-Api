@@ -45,8 +45,8 @@ class Category extends CrudExtension{
                                 ['table'=>'products']
                                 )
                     ->setLeftJoin(
-                        ['table'=>'products','ON'=>'brands_id'], 
-                        ['table'=>'brands']
+                                ['table'=>'products','ON'=>'brands_id'], 
+                                ['table'=>'brands']
                         )
                     ->setWhere('categories.id = '.$categoryId .' OR categories.id = 0 AND categories.accounts_id = '. $currentUserId)
                     ->fetchAssoc(true);
