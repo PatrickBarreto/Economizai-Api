@@ -18,6 +18,11 @@ class ShoppingList extends CrudExtension{
     protected string $edited;
 
 
+    public function getProperty(string $name){
+        return $this->$name;
+    }
+
+
     public function createShoppingList(Request $request) {
         $content = $request->getBody();
         return $this->insert->setFields(['accounts_id', 'name', 'type'])
@@ -39,6 +44,22 @@ class ShoppingList extends CrudExtension{
         $query = $this->select->setFields($fields)->setWhere('accounts_id = '. $currentUserId. ' AND id = '.$shopplingList);
         
         return ($array) ? $query->fetchAssoc() : $query->fetchObject(false, self::class);
+    }
+
+
+
+    public function findUsersShoppingListCategories(int $currentUserId){
+        return $this->select->setFields(['categories.id as CategoryId', 'categories.name as CategoryName'])
+                            ->setLeftJoin(
+                                    ['table'=>'shopping_lists'], 
+                                    ['table'=>'bond_shopping_list_categories', 'ON'=>'shopping_lists_id']
+                                )
+                            ->setInnerJoin(
+                                    ['table'=>'bond_shopping_list_categories', 'ON'=>'categories_id'],
+                                    ['table'=>'categories']
+                                )
+                            ->setWhere('shopping_lists.id = '.$this->id .' AND shopping_lists.accounts_id = '. $currentUserId)
+                            ->fetchAssoc(true);
     }
    
    
