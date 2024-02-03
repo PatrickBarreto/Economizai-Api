@@ -16,7 +16,7 @@ class ShoppingList {
 
 
     public static function findUsersShoppingLists(int $currentUser){
-        $shoppingList = (new ShoppingListsModel)->findAllUsersShoppingList($currentUser, ['id','account_id', 'name', 'type']);
+        $shoppingList = (new ShoppingListsModel)->findAllUsersShoppingList($currentUser, ['id','accounts_id', 'name', 'type']);
         if($shoppingList) {
             return $shoppingList;
         }
@@ -27,7 +27,7 @@ class ShoppingList {
 
 
     public static function findShoppingList(Request $request){
-        $shoppingList = (new ShoppingListsModel)->findShoppingList($request->currentUser, $request->getPathParams()['id'], ['id','account_id', 'name', 'type']);
+        $shoppingList = (new ShoppingListsModel)->findShoppingList($request->currentUser, $request->getPathParams()['id'], ['id','accounts_id', 'name', 'type']);
         if($shoppingList) {
             return $shoppingList;
         }
@@ -37,7 +37,7 @@ class ShoppingList {
 
 
     public static function updateShoppingList(Request $request){
-        $shoppingList = (new ShoppingListsModel)->findShoppingList($request->currentUser, $request->getPathParams()['id'], ['id','account_id', 'name', 'type'], false);
+        $shoppingList = (new ShoppingListsModel)->findShoppingList($request->currentUser, $request->getPathParams()['id'], ['id','accounts_id', 'name', 'type'], false);
         if($shoppingList) {
             return $shoppingList->updateShoppingList($request->currentUser, $request->getBody());
         }
@@ -47,7 +47,7 @@ class ShoppingList {
 
 
     public static function deleteShoppingList(Request $request){
-        $shoppingList = (new ShoppingListsModel)->findShoppingList($request->currentUser, $request->getPathParams()['id'], ['id','account_id', 'name', 'type'], false);
+        $shoppingList = (new ShoppingListsModel)->findShoppingList($request->currentUser, $request->getPathParams()['id'], ['id','accounts_id', 'name', 'type'], false);
         if($shoppingList) {
             return $shoppingList->deleteShoppingList();
         }

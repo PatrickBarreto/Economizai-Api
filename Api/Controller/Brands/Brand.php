@@ -16,7 +16,7 @@ class Brand {
 
 
     public static function findUsersBrands(int $currentUser){
-        $Brand = (new BrandModel)->findAllUsersBrand($currentUser, ['id','account_id', 'name', 'type']);
+        $Brand = (new BrandModel)->findAllUsersBrand($currentUser, ['id','accounts_id', 'name', 'type']);
         if($Brand) {
             return $Brand;
         }
@@ -27,7 +27,7 @@ class Brand {
 
 
     public static function findBrand(Request $request){
-        $Brand = (new BrandModel)->findBrand($request->currentUser, $request->getPathParams()['id'], ['id','account_id', 'name', 'type']);
+        $Brand = (new BrandModel)->findBrand($request->currentUser, $request->getPathParams()['id'], ['id','accounts_id', 'name', 'type']);
         if($Brand) {
             return $Brand;
         }
@@ -37,7 +37,7 @@ class Brand {
 
 
     public static function updateBrand(Request $request){
-        $Brand = (new BrandModel)->findBrand($request->currentUser, $request->getPathParams()['id'], ['id','account_id', 'name', 'type'], false);
+        $Brand = (new BrandModel)->findBrand($request->currentUser, $request->getPathParams()['id'], ['id','accounts_id', 'name', 'type'], false);
         if($Brand) {
             return $Brand->updateBrand($request->currentUser, $request->getBody());
         }
@@ -47,7 +47,7 @@ class Brand {
 
 
     public static function deleteBrand(Request $request){
-        $Brand = (new BrandModel)->findBrand($request->currentUser, $request->getPathParams()['id'], ['id','account_id', 'name', 'type'], false);
+        $Brand = (new BrandModel)->findBrand($request->currentUser, $request->getPathParams()['id'], ['id','accounts_id', 'name', 'type'], false);
         if($Brand) {
             return $Brand->deleteBrand();
         }
