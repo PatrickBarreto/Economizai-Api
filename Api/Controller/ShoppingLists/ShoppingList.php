@@ -29,26 +29,12 @@ class ShoppingList {
 
 
     public static function findShoppingList(Request $request){
-        $shoppingList = (new ShoppingListsModel)->findShoppingList($request->currentUser, $request->getPathParams()['id'], ['id','accounts_id', 'name', 'type'], false);
+        $shoppingList = (new ShoppingListsModel)->findShoppingList($request->currentUser, $request->getPathParams()['id'], ['id','accounts_id', 'name', 'type']);
         
         if($shoppingList) {    
-            $shoppingList->categories = $shoppingList->findUsersShoppingListCategories($request->currentUser);
-            
-            foreach($shoppingList->categories as $category){
-                $categories[] = [
-                    'categoryId'=> $category['CategoryId'],
-                    'categoryName'=> $category['CategoryName'],
-                    'categoryProducts' =>(new CategoryModel)->findUsersCategoriesAndProducts($request->currentUser, (int)$category['CategoryId'])
-                ];
-            }
-         
-            return [
-                'id' => $shoppingList->getProperty('id'),
-                'listName' => $shoppingList->getProperty('name'),
-                'type' => $shoppingList->getProperty('type'),
-                'itens' =>  $categories
-            ];
+            return $shoppingList;
         }
+        
         Exception::throw("Shopping list not found", 200);
     }
 
