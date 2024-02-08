@@ -42,7 +42,6 @@ CREATE TABLE categories (
 CREATE TABLE products (
     id INT AUTO_INCREMENT PRIMARY KEY,
     accounts_id INT(11),
-    brands_id INT(11),
     name VARCHAR(255),
     type ENUM('food', 'medicine'),
     volume int(11),
@@ -66,7 +65,7 @@ CREATE TABLE bond_categories_products (
 );
 
 
-CREATE TABLE bond_brand_categories (
+CREATE TABLE bond_categories_brands (
 id INT AUTO_INCREMENT PRIMARY KEY,
 brands_id INT(11),
 categories_id INT(11),
@@ -74,3 +73,5 @@ CONSTRAINT boundBrandCategories UNIQUE(brands_id, categories_id),
 FOREIGN KEY (brands_id) REFERENCES brands(id),
 FOREIGN KEY (categories_id) REFERENCES categories(id)
 );
+
+
