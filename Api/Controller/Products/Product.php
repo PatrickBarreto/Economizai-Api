@@ -15,7 +15,7 @@ class Product {
 
 
     public static function findUsersProducts(int $currentUser){
-        $product = (new ProductModel)->findAllUsersProducts($currentUser, ['id','brands_id', 'name', 'type']);
+        $product = (new ProductModel)->findAllUsersProducts($currentUser, ['id', 'name', 'type']);
         if($product) {
             return $product;
         }
@@ -25,7 +25,7 @@ class Product {
 
 
     public static function findProduct(Request $request){
-        $product = (new ProductModel)->findProduct($request->currentUser, $request->getPathParams()['id'], ['id', 'accounts_id','brands_id', 'name', 'type']);
+        $product = (new ProductModel)->findProduct($request->currentUser, $request->getPathParams()['id'], ['id', 'accounts_id', 'name', 'type']);
         if($product) {
             return $product;
         }
