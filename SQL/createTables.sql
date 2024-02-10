@@ -54,8 +54,8 @@ CREATE TABLE products (
 );
 
 
-
-CREATE TABLE bond_categories_products (
+-- Categories and products bond to identifier what productc can be and grouped
+CREATE TABLE bond_cxwategories_products (
     id INT AUTO_INCREMENT PRIMARY KEY,
     categories_id INT(11),
     products_id INT(11),
@@ -65,13 +65,35 @@ CREATE TABLE bond_categories_products (
 );
 
 
+-- Categories and brands bond to identifier what brand can be showed for a product
 CREATE TABLE bond_categories_brands (
-id INT AUTO_INCREMENT PRIMARY KEY,
-brands_id INT(11),
-categories_id INT(11),
-CONSTRAINT boundBrandCategories UNIQUE(brands_id, categories_id),
-FOREIGN KEY (brands_id) REFERENCES brands(id),
-FOREIGN KEY (categories_id) REFERENCES categories(id)
+	id INT AUTO_INCREMENT PRIMARY KEY,
+	brands_id INT(11),
+	categories_id INT(11),
+	CONSTRAINT boundBrandCategories UNIQUE(brands_id, categories_id),
+	FOREIGN KEY (brands_id) REFERENCES brands(id),
+	FOREIGN KEY (categories_id) REFERENCES categories(id)
 );
 
+
+-- Shopping lists, categories and products bond to build and list with products to buy
+CREATE TABLE bond_shopping_lists_products(
+	id INT AUTO_INCREMENT PRIMARY KEY,
+	shopping_lists_id INT(11),
+	categories_id INT(11),
+	products_id INT(11),
+	amount INT(11),
+	FOREIGN KEY(shopping_lists_id) REFERENCES shopping_lists(id),
+	FOREIGN KEY(categories_id) REFERENCES categories(id),
+	FOREIGN KEY(products_id) REFERENCES products(id),
+	CONSTRAINT bondShoppingListProducts UNIQUE(shopping_lists_id, categories_id, products_id)
+);
+
+CREATE TABLE shopping_lists_executions (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    shopping_lists_id INT(11),
+    execution_hash VARCHAR(33),
+    FOREIGN KEY(shopping_lists_id) REFERENCES shopping_lists(id),
+    CONSTRAINT bondShoppingListExecution UNIQUE(execution_hash)
+);
 
