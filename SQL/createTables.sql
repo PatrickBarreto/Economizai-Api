@@ -89,6 +89,7 @@ CREATE TABLE bond_shopping_lists_products(
 	CONSTRAINT bondShoppingListProducts UNIQUE(shopping_lists_id, categories_id, products_id)
 );
 
+-- Shopping list execution to bond product options for N lists
 CREATE TABLE shopping_lists_executions (
     id INT AUTO_INCREMENT PRIMARY KEY,
     shopping_lists_id INT(11),
@@ -97,3 +98,18 @@ CREATE TABLE shopping_lists_executions (
     CONSTRAINT bondShoppingListExecution UNIQUE(execution_hash)
 );
 
+
+CREATE TABLE bond_shopping_lists_products_execution (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    shopping_lists_execution_hash VARCHAR(33),
+    bond_shopping_lists_products_id INT(11),
+    products_id VARCHAR(50), 
+    brands_id INT(11), 
+    type_description VARCHAR(50), 
+    quantity INT(11),
+    price DECIMAL(19,  4),
+    FOREIGN KEY(shopping_lists_execution_hash) REFERENCES shopping_lists_executions(execution_hash),
+    FOREIGN KEY(brands_id) REFERENCES brands(id),
+    FOREIGN KEY(products_id) REFERENCES products(id),
+    FOREIGN KEY(bond_shopping_lists_products_id) REFERENCES bond_shopping_lists_products(id),
+);
