@@ -29,7 +29,7 @@ class ShoppingListExecution extends CrudExtension{
                             ->fetchObject(false, self::class);
     }
 
-    public function findExecutionsByhash(string $hash) {
+    public function findExecutionsByHash(string $hash) {
         return $this->select->setFields(['id', 'shopping_lists_id', 'execution_hash'])
                             ->setWhere('execution_hash = "'.$hash.'"')
                             ->fetchObject(false, self::class);
