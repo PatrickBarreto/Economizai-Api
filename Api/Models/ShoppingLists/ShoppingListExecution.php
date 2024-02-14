@@ -12,7 +12,12 @@ class ShoppingListExecution extends CrudExtension{
     protected int $shopping_lists_id;
     protected string $execution_hash;
 
-    public function createHashExecution($shopping_lists_id) {
+
+    public function getProperty(string $property){
+        return $this->$property;
+    }
+
+    public function createHashExecution(int $shopping_lists_id) {
         return $this->insert->setFields(['shopping_lists_id', 'execution_hash'])
                             ->setValues([$shopping_lists_id, md5($shopping_lists_id)])
                             ->fetchObject(false, self::class);
@@ -24,7 +29,7 @@ class ShoppingListExecution extends CrudExtension{
                             ->fetchObject(false, self::class);
     }
 
-    public function findExecutionsByhash(string $hash) {
+    public function findExecutionsByHash(string $hash) {
         return $this->select->setFields(['id', 'shopping_lists_id', 'execution_hash'])
                             ->setWhere('execution_hash = "'.$hash.'"')
                             ->fetchObject(false, self::class);
