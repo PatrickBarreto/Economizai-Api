@@ -37,8 +37,8 @@ class Product extends CrudExtension{
    
    
    
-    public function findProduct(int $currentUserId, int $shopplingList, array $fields = ['*'], $array = true) {
-        $query = $this->select->setFields($fields)->setWhere('accounts_id = '. $currentUserId. ' AND id = '.$shopplingList);
+    public function findProduct(int $currentUserId, int $productId, array $fields = ['*'], $array = true) {
+        $query = $this->select->setFields($fields)->setWhere('accounts_id = '. $currentUserId. ' AND id = '.$productId);
         
         return ($array) ? $query->fetchAssoc() : $query->fetchObject(false, self::class);
     }
