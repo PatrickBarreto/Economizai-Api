@@ -44,7 +44,7 @@ CREATE TABLE products (
     accounts_id INT(11),
     name VARCHAR(255),
     type ENUM('food', 'medicine'),
-    volume int(11),
+    volume INT(11),
     unit_mensure ENUM('mcg', 'mg', 'g', 'kg','mm', 'cm', 'm','mm2', 'cm2', 'm2', 'ml', 'l', 'c3', 'm3'),
     created TIMESTAMP,
     edited TIMESTAMP,
@@ -55,7 +55,7 @@ CREATE TABLE products (
 
 
 -- Categories and products bond to identifier what productc can be and grouped
-CREATE TABLE bond_cxwategories_products (
+CREATE TABLE bond_categories_products (
     id INT AUTO_INCREMENT PRIMARY KEY,
     categories_id INT(11),
     products_id INT(11),
@@ -99,17 +99,19 @@ CREATE TABLE shopping_lists_executions (
 );
 
 
-CREATE TABLE bond_shopping_lists_products_execution (
+CREATE TABLE bond_shopping_lists_products_options (
     id INT AUTO_INCREMENT PRIMARY KEY,
     shopping_lists_execution_hash VARCHAR(33),
     bond_shopping_lists_products_id INT(11),
-    products_id VARCHAR(50), 
+    products_id INT(11), 
     brands_id INT(11), 
-    type_description VARCHAR(50), 
+    type_description VARCHAR(50),
+    wheight DECIMAL(19,  4),
+    unit_mensure ENUM('mcg', 'mg', 'g', 'kg','mm', 'cm', 'm','mm2', 'cm2', 'm2', 'ml', 'l', 'c3', 'm3'),
     quantity INT(11),
     price DECIMAL(19,  4),
     FOREIGN KEY(shopping_lists_execution_hash) REFERENCES shopping_lists_executions(execution_hash),
     FOREIGN KEY(brands_id) REFERENCES brands(id),
     FOREIGN KEY(products_id) REFERENCES products(id),
-    FOREIGN KEY(bond_shopping_lists_products_id) REFERENCES bond_shopping_lists_products(id),
+    FOREIGN KEY(bond_shopping_lists_products_id) REFERENCES bond_shopping_lists_products(id)
 );
