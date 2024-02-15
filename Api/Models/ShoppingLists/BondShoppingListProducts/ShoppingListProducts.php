@@ -14,6 +14,10 @@ class ShoppingListProducts extends CrudExtension{
     protected int $products_id;
     protected int $amount;
 
+    public function getProperty(string $property){
+        return $this->$property;
+    }
+
     public function create(array $values) {
         return $this->insert->setFields(['shopping_lists_id', 'categories_id', 'products_id', 'amount'])->setValues($values)->runQuery();
     }
