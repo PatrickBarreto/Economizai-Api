@@ -35,7 +35,7 @@ class Category extends CrudExtension{
    
    
     public function findUsersCategoriesAndProducts(int $currentUserId, int $categoryId){
-        return $this->select->setFields(['products.id','products.name', 'brands.id as brandId', 'brands.name as brandName'])
+        return $this->select->setFields(['products.id','products.name'])
                     ->setInnerJoin(
                                 ['table'=>'categories'], 
                                 ['table'=>'bond_categories_products', 'ON'=>'categories_id']
@@ -44,10 +44,6 @@ class Category extends CrudExtension{
                                 ['table'=>'bond_categories_products', 'ON'=>'products_id'],
                                 ['table'=>'products']
                                 )
-                    ->setLeftJoin(
-                                ['table'=>'products','ON'=>'brands_id'], 
-                                ['table'=>'brands']
-                        )
                     ->setWhere('categories.id = '.$categoryId .' OR categories.id = 0 AND categories.accounts_id = '. $currentUserId)
                     ->fetchAssoc(true);
     }
