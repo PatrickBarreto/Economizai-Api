@@ -22,11 +22,11 @@ class ShoppingListProductOptions {
         $productOptionBrandId = isset($request->getBody()->brands_id) ? $request->getBody()->brands_id : 0;
         $quantity =             isset($request->getBody()->quantity) ? $request->getBody()->quantity : 0;
         $typeDescription =      isset($request->getBody()->type_description) ? $request->getBody()->type_description : 0;
-        $wheight =              isset($request->getBody()->wheight) ? $request->getBody()->wheight : 0;
+        $weight =              isset($request->getBody()->weight) ? $request->getBody()->weight : 0;
         $unitMensure =          isset($request->getBody()->unit_mensure) ? $request->getBody()->unit_mensure : 0;
         $price =                isset($request->getBody()->price) ? $request->getBody()->price : 0;
 
-        if(!$executionHash || !$productListId || !$productOptionId || !$productOptionBrandId || !$quantity || !$typeDescription || !$wheight || !$unitMensure || !$price){
+        if(!$executionHash || !$productListId || !$productOptionId || !$productOptionBrandId || !$quantity || !$typeDescription || !$weight || !$unitMensure || !$price){
             Exception::throw('Miss information', 200);
         }
 
@@ -39,7 +39,7 @@ class ShoppingListProductOptions {
                                                     $productOptionId,
                                                     $productOptionBrandId,
                                                     $typeDescription,
-                                                    $wheight,
+                                                    $weight,
                                                     $unitMensure,
                                                     $quantity,
                                                     $price
