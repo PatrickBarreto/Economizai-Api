@@ -115,9 +115,8 @@
 		}
 		```
 --- 
+<br>
 
-
-<br><br>
 ## Brands
 
 - ### Create Brands
@@ -266,4 +265,165 @@
 		}
 		```
 --- 
+
+
+## Categories
+
+- ### Create Categories
+
+	- #### REQUEST
+		#### Endpoint
+			POST /categories
+		#### Headers
+			- Access-Token
+			- Content-Type
+			- Authorization
+		#### Body
+		```json
+		{
+			"name":"Seara"
+		}
+		```
+		<br><br>
+
+	- #### RESPONSE
+		#### Headers
+			- Content-Type
+		#### Body
+		```json
+		{
+			"success": true
+		}
+		```
+--- 
+
+- ### Categories List
+
+	- #### REQUEST
+		#### Endpoint
+			GET /categories
+		#### Headers
+			- Access-Token
+			- Content-Type
+			- Authorization
+		#### Body
+		```json
+		
+		```
+		<br><br>
+
+	- #### RESPONSE
+		#### Headers
+			- Content-Type
+		#### Body
+		```json
+		[
+			{
+				"id": "46",
+				"accounts_id": "0",
+				"name": "Outros",
+				"products": [
+					{
+						"id": "2",
+						"name": "Caldo"
+					},
+					...
+				]
+			},
+			...
+		]
+		```
+--- 
+
+- ### Categories Detail
+
+	- #### REQUEST
+		#### Endpoint
+			GET /category/{id}
+		#### Headers
+			- Access-Token
+			- Content-Type
+			- Authorization
+		#### Body
+		```json
+		
+		```
+		<br><br>
+
+	- #### RESPONSE
+		#### Headers
+			- Content-Type
+		#### Body
+		```json
+		{
+			"id": "46",
+			"accounts_id": "0",
+			"name": "Outros",
+			"products": [
+					{
+						"id": "2",
+						"name": "Caldo"
+					},
+					...
+				]
+		}
+		```
+--- 
+
+
+- ### Edit Categories
+
+	- #### REQUEST
+		#### Endpoint
+			PUT /category/{id}
+		#### Headers
+			- Access-Token
+			- Content-Type
+			- Authorization
+		#### Body
+		```json
+		{
+			"name":"Proteina"
+		}
+		```
+		<br><br>
+
+	- #### RESPONSE
+		#### Headers
+			- Content-Type
+		#### Body
+		```json
+		{
+			"success": true
+		}
+		```
+--- 
+
+
+- ### Delete Categories
+
+	- #### REQUEST
+		#### Endpoint
+			DELETE /category/{id}
+		#### Headers
+			- Access-Token
+			- Content-Type
+			- Authorization
+		#### Body
+		```json
+		
+		```
+		<br><br>
+
+	- #### RESPONSE
+		#### Headers
+			- Content-Type
+		#### Body
+		```json
+		{
+			"success": true
+		}
+		```
+--- 
+
 
