@@ -538,3 +538,167 @@
 		}
 		```
 --- 
+
+## Products
+
+- ### Create Product
+
+	- #### REQUEST
+		#### Endpoint
+			POST /product
+		#### Headers
+			- Access-Token
+			- Content-Type
+			- Authorization
+		#### Body
+		```json
+		{
+			"name":"novo produto",
+			"type": "food",
+			"volume": 200,
+			"unit_mensure": "mg"
+		}
+		```
+		<br><br>
+
+	- #### RESPONSE
+		#### Headers
+			- Content-Type
+		#### Body
+		```json
+		{
+			"success": true
+		}
+		```
+--- 
+
+- ### Products List
+
+	- #### REQUEST
+		#### Endpoint
+			GET /products
+		#### Headers
+			- Access-Token
+			- Content-Type
+			- Authorization
+		#### Body
+		```json
+		
+		```
+		<br><br>
+
+	- #### RESPONSE
+		#### Headers
+			- Content-Type
+		#### Body
+		```json
+		[
+			{
+				"id": "1",
+				"name":"produto",
+				"type": "food",
+				"volume": 400,
+				"unit_mensure": "mg"
+			},
+			{
+				"id": "2",
+				"name":"novo produto",
+				"type": "food",
+				"volume": 200,
+				"unit_mensure": "mg"
+			}
+		]
+		```
+--- 
+
+- ### Product Detail
+
+	- #### REQUEST
+		#### Endpoint
+			GET /product/{id}
+		#### Headers
+			- Access-Token
+			- Content-Type
+			- Authorization
+		#### Body
+		```json
+		
+		```
+		<br><br>
+
+	- #### RESPONSE
+		#### Headers
+			- Content-Type
+		#### Body
+		```json
+		{
+			"id": "2",
+			"name":"novo produto",
+			"type": "food",
+			"volume": 200,
+			"unit_mensure": "mg"
+		}
+		```
+--- 
+
+
+- ### Edit Product
+
+	- #### REQUEST
+		#### Endpoint
+			PUT /product/{id}
+		#### Headers
+			- Access-Token
+			- Content-Type
+			- Authorization
+		#### Body
+		```json
+		{
+			"name":"novo produto",
+			"type": "food",
+			"volume": 200,
+			"unit_mensure": "mg"
+		}
+		```
+		<br><br>
+
+	- #### RESPONSE
+		#### Headers
+			- Content-Type
+		#### Body
+		```json
+		{
+			"success": true
+		}
+		```
+--- 
+
+
+- ### Delete Categories
+
+	- #### REQUEST
+		#### Endpoint
+			DELETE /product/{id}
+		#### Headers
+			- Access-Token
+			- Content-Type
+			- Authorization
+		#### Body
+		```json
+		
+		```
+		<br><br>
+
+	- #### RESPONSE
+		#### Headers
+			- Content-Type
+		#### Body
+		```json
+		{
+			"success": true
+		}
+		```
+--- 
+
+## Shopping List
+
