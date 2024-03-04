@@ -702,3 +702,157 @@
 
 ## Shopping List
 
+
+- ### Create Shopping List
+
+	- #### REQUEST
+		#### Endpoint
+			POST /shopping-list/create
+		#### Headers
+			- Access-Token
+			- Content-Type
+			- Authorization
+		#### Body
+		```json
+		{
+			"name" : "teste", 
+			"type" : "food"
+		}
+		```
+		<br><br>
+
+	- #### RESPONSE
+		#### Headers
+			- Content-Type
+		#### Body
+		```json
+		{
+			"success": true
+		}
+		```
+--- 
+
+- ### Shopping Lists List
+
+	- #### REQUEST
+		#### Endpoint
+			GET /shopping-list
+		#### Headers
+			- Access-Token
+			- Content-Type
+			- Authorization
+		#### Body
+		```json
+		
+		```
+		<br><br>
+
+	- #### RESPONSE
+		#### Headers
+			- Content-Type
+		#### Body
+		```json
+		[
+			{
+				"id": "1",
+				"accounts_id": "2",
+				"name": "Dieta ganho",
+				"type": "food"
+			},
+			{
+				"id": "2",
+				"accounts_id": "2",
+				"name": "Dieta perda",
+				"type": "food"
+			}
+		]
+		```
+--- 
+
+- ### Shopping List Detail
+
+	- #### REQUEST
+		#### Endpoint
+			GET /shopping-list/{id}
+		#### Headers
+			- Access-Token
+			- Content-Type
+			- Authorization
+		#### Body
+		```json
+		
+		```
+		<br><br>
+
+	- #### RESPONSE
+		#### Headers
+			- Content-Type
+		#### Body
+		```json
+		{
+			"id": "1",
+			"accounts_id": "2",
+			"name": "Dieta 90 kg",
+			"type": "food"
+		}
+		```
+--- 
+
+
+- ### Edit Shopping List
+
+	- #### REQUEST
+		#### Endpoint
+			PUT /shopping-list/{id}
+		#### Headers
+			- Access-Token
+			- Content-Type
+			- Authorization
+		#### Body
+		```json
+		{
+			"name":"novo produto",
+			"type": "food",
+		}
+		```
+		<br><br>
+
+	- #### RESPONSE
+		#### Headers
+			- Content-Type
+		#### Body
+		```json
+		{
+			"success": true
+		}
+		```
+--- 
+
+
+- ### Delete Shopping List
+
+	- #### REQUEST
+		#### Endpoint
+			DELETE /shopping-list/{id}
+		#### Headers
+			- Access-Token
+			- Content-Type
+			- Authorization
+		#### Body
+		```json
+		
+		```
+		<br><br>
+
+	- #### RESPONSE
+		#### Headers
+			- Content-Type
+		#### Body
+		```json
+		{
+			"success": true
+		}
+		```
+--- 
+
+
