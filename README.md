@@ -17,7 +17,7 @@
 			"email":"co2@gmail.com"
 		}
 		```
-		<br><br>
+		<br>
 
 	- #### RESPONSE
 		#### Headers
@@ -29,6 +29,7 @@
 		}
 		```
 --- 
+<br>
 
 - ### Accounts Detail
 
@@ -43,7 +44,7 @@
 		```json
 		
 		```
-		<br><br>
+		<br>
 
 	- #### RESPONSE
 		#### Headers
@@ -57,6 +58,7 @@
 		}
 		```
 --- 
+<br>
 
 
 - ### Edit Account
@@ -76,7 +78,7 @@
 			"email":"co@gmeail.com"
 		}
 		```
-		<br><br>
+		<br>
 
 	- #### RESPONSE
 		#### Headers
@@ -88,6 +90,7 @@
 		}
 		```
 --- 
+<br>
 
 
 - ### Delete Account
@@ -103,7 +106,7 @@
 		```json
 		
 		```
-		<br><br>
+		<br>
 
 	- #### RESPONSE
 		#### Headers
@@ -115,6 +118,7 @@
 		}
 		```
 --- 
+<br>
 <br>
 
 ## Brands
@@ -134,7 +138,7 @@
 			"name":"Seara"
 		}
 		```
-		<br><br>
+		<br>
 
 	- #### RESPONSE
 		#### Headers
@@ -146,6 +150,7 @@
 		}
 		```
 --- 
+<br>
 
 - ### Brands List
 
@@ -160,7 +165,7 @@
 		```json
 		
 		```
-		<br><br>
+		<br>
 
 	- #### RESPONSE
 		#### Headers
@@ -180,6 +185,7 @@
 		}
 		```
 --- 
+<br>
 
 - ### Brands Detail
 
@@ -194,7 +200,7 @@
 		```json
 		
 		```
-		<br><br>
+		<br>
 
 	- #### RESPONSE
 		#### Headers
@@ -209,6 +215,7 @@
 		}
 		```
 --- 
+<br>
 
 
 - ### Edit Brands
@@ -226,7 +233,7 @@
 			"name":"Sadia"
 		}
 		```
-		<br><br>
+		<br>
 
 	- #### RESPONSE
 		#### Headers
@@ -238,6 +245,7 @@
 		}
 		```
 --- 
+<br>
 
 
 - ### Delete Brands
@@ -253,7 +261,7 @@
 		```json
 		
 		```
-		<br><br>
+		<br>
 
 	- #### RESPONSE
 		#### Headers
@@ -265,6 +273,7 @@
 		}
 		```
 --- 
+<br>
 
 
 ## Categories
@@ -284,7 +293,7 @@
 			"name":"Seara"
 		}
 		```
-		<br><br>
+		<br>
 
 	- #### RESPONSE
 		#### Headers
@@ -296,6 +305,7 @@
 		}
 		```
 --- 
+<br>
 
 - ### Categories List
 
@@ -310,7 +320,7 @@
 		```json
 		
 		```
-		<br><br>
+		<br>
 
 	- #### RESPONSE
 		#### Headers
@@ -334,6 +344,7 @@
 		]
 		```
 --- 
+<br>
 
 - ### Categories Detail
 
@@ -348,7 +359,7 @@
 		```json
 		
 		```
-		<br><br>
+		<br>
 
 	- #### RESPONSE
 		#### Headers
@@ -369,6 +380,7 @@
 		}
 		```
 --- 
+<br>
 
 
 - ### Edit Categories
@@ -386,7 +398,7 @@
 			"name":"Proteina"
 		}
 		```
-		<br><br>
+		<br>
 
 	- #### RESPONSE
 		#### Headers
@@ -398,6 +410,7 @@
 		}
 		```
 --- 
+<br>
 
 
 - ### Delete Categories
@@ -413,7 +426,7 @@
 		```json
 		
 		```
-		<br><br>
+		<br>
 
 	- #### RESPONSE
 		#### Headers
@@ -425,6 +438,7 @@
 		}
 		```
 --- 
+<br>
 
 
 ## Bond Categories Brands
@@ -443,7 +457,7 @@
 			"brands_id":[1, 2, 4]
 		}
 		```
-		<br><br>
+		<br>
 
 	- #### RESPONSE
 		#### Headers
@@ -455,6 +469,7 @@
 		}
 		```
 --- 
+<br>
 
 - ### Delete category brand
 
@@ -469,7 +484,7 @@
 		```json
 		
 		```
-		<br><br>
+		<br>
 
 	- #### RESPONSE
 		#### Headers
@@ -481,6 +496,7 @@
 		}
 		```
 --- 
+<br>
 
 
 
@@ -500,7 +516,7 @@
 			"product_id":[1, 2, 4]
 		}
 		```
-		<br><br>
+		<br>
 
 	- #### RESPONSE
 		#### Headers
@@ -512,6 +528,7 @@
 		}
 		```
 --- 
+<br>
 
 - ### Delete category product
 
@@ -526,7 +543,7 @@
 		```json
 		
 		```
-		<br><br>
+		<br>
 
 	- #### RESPONSE
 		#### Headers
@@ -538,6 +555,7 @@
 		}
 		```
 --- 
+<br>
 
 ## Products
 
@@ -559,7 +577,7 @@
 			"unit_mensure": "mg"
 		}
 		```
-		<br><br>
+		<br>
 
 	- #### RESPONSE
 		#### Headers
@@ -571,6 +589,7 @@
 		}
 		```
 --- 
+<br>
 
 - ### Products List
 
@@ -585,7 +604,7 @@
 		```json
 		
 		```
-		<br><br>
+		<br>
 
 	- #### RESPONSE
 		#### Headers
@@ -610,6 +629,7 @@
 		]
 		```
 --- 
+<br>
 
 - ### Product Detail
 
@@ -624,7 +644,7 @@
 		```json
 		
 		```
-		<br><br>
+		<br>
 
 	- #### RESPONSE
 		#### Headers
@@ -640,6 +660,7 @@
 		}
 		```
 --- 
+<br>
 
 
 - ### Edit Product
@@ -660,7 +681,7 @@
 			"unit_mensure": "mg"
 		}
 		```
-		<br><br>
+		<br>
 
 	- #### RESPONSE
 		#### Headers
@@ -672,6 +693,7 @@
 		}
 		```
 --- 
+<br>
 
 
 - ### Delete Categories
@@ -687,7 +709,7 @@
 		```json
 		
 		```
-		<br><br>
+		<br>
 
 	- #### RESPONSE
 		#### Headers
@@ -699,9 +721,9 @@
 		}
 		```
 --- 
+<br>
 
 ## Shopping List
-
 
 - ### Create Shopping List
 
@@ -719,7 +741,7 @@
 			"type" : "food"
 		}
 		```
-		<br><br>
+		<br>
 
 	- #### RESPONSE
 		#### Headers
@@ -731,6 +753,7 @@
 		}
 		```
 --- 
+<br>
 
 - ### Shopping Lists List
 
@@ -745,7 +768,7 @@
 		```json
 		
 		```
-		<br><br>
+		<br>
 
 	- #### RESPONSE
 		#### Headers
@@ -768,6 +791,7 @@
 		]
 		```
 --- 
+<br>
 
 - ### Shopping List Detail
 
@@ -782,7 +806,7 @@
 		```json
 		
 		```
-		<br><br>
+		<br>
 
 	- #### RESPONSE
 		#### Headers
@@ -797,6 +821,7 @@
 		}
 		```
 --- 
+<br>
 
 
 - ### Edit Shopping List
@@ -815,7 +840,7 @@
 			"type": "food",
 		}
 		```
-		<br><br>
+		<br>
 
 	- #### RESPONSE
 		#### Headers
@@ -827,6 +852,7 @@
 		}
 		```
 --- 
+<br>
 
 
 - ### Delete Shopping List
@@ -842,7 +868,7 @@
 		```json
 		
 		```
-		<br><br>
+		<br>
 
 	- #### RESPONSE
 		#### Headers
@@ -854,5 +880,103 @@
 		}
 		```
 --- 
+<br>
 
+## Bond Products List
 
+- ### Add new product to any list
+	- #### REQUEST
+		#### Endpoint
+			POST /shopping-list/{id}/new-product
+		#### Headers
+			- Access-Token
+			- Content-Type
+			- Authorization
+		#### Body
+		```json
+		{
+			"categories_id" : 46, 
+			"products_id" : 2,
+			"amount" : 2
+		}
+		```
+		<br>
+
+	- #### RESPONSE
+		#### Headers
+			- Content-Type
+		#### Body
+		```json
+		{
+			"success": true
+		}
+		```
+--- 
+<br>
+
+- ### List products from list
+	- #### REQUEST
+		#### Endpoint
+			GET /shopping-list/{id}/products
+		#### Headers
+			- Access-Token
+			- Content-Type
+			- Authorization
+		#### Body
+		```json
+		
+		```
+		<br>
+
+	- #### RESPONSE
+		#### Headers
+			- Content-Type
+		#### Body
+		```json
+		[
+			{
+				"id": "27",
+				"shopping_lists_id": "1",
+				"categories_id": "47",
+				"products_id": "6",
+				"amount": "2"
+			},
+			{
+				"id": "34",
+				"shopping_lists_id": "1",
+				"categories_id": "47",
+				"products_id": "2",
+				"amount": "2"
+			},
+			...
+		]
+		```
+--- 
+<br>
+
+- ### Delete bond product from list
+
+	- #### REQUEST
+		#### Endpoint
+			DELETE /shopping-list/product/bond/{bondId}
+		#### Headers
+			- Access-Token
+			- Content-Type
+			- Authorization
+		#### Body
+		```json
+		
+		```
+		<br>
+
+	- #### RESPONSE
+		#### Headers
+			- Content-Type
+		#### Body
+		```json
+		{
+			"success": true
+		}
+		```
+--- 
+<br>
