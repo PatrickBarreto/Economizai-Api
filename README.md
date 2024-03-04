@@ -427,3 +427,114 @@
 --- 
 
 
+## Bond Categories Brands
+
+- ### Create new category brand
+	- #### REQUEST
+		#### Endpoint
+			POST /category/{id}/new-brand
+		#### Headers
+			- Access-Token
+			- Content-Type
+			- Authorization
+		#### Body
+		```json
+		{
+			"brands_id":[1, 2, 4]
+		}
+		```
+		<br><br>
+
+	- #### RESPONSE
+		#### Headers
+			- Content-Type
+		#### Body
+		```json
+		{
+			"success": true
+		}
+		```
+--- 
+
+- ### Delete category brand
+
+	- #### REQUEST
+		#### Endpoint
+			DELETE /category/{id}/brand
+		#### Headers
+			- Access-Token
+			- Content-Type
+			- Authorization
+		#### Body
+		```json
+		
+		```
+		<br><br>
+
+	- #### RESPONSE
+		#### Headers
+			- Content-Type
+		#### Body
+		```json
+		{
+			"success": true
+		}
+		```
+--- 
+
+
+
+## Bond Categories Products
+
+- ### Create new category product
+	- #### REQUEST
+		#### Endpoint
+			POST /category/{id}/new-product
+		#### Headers
+			- Access-Token
+			- Content-Type
+			- Authorization
+		#### Body
+		```json
+		{
+			"product_id":[1, 2, 4]
+		}
+		```
+		<br><br>
+
+	- #### RESPONSE
+		#### Headers
+			- Content-Type
+		#### Body
+		```json
+		{
+			"success": true
+		}
+		```
+--- 
+
+- ### Delete category product
+
+	- #### REQUEST
+		#### Endpoint
+			DELETE /category/{id}/product
+		#### Headers
+			- Access-Token
+			- Content-Type
+			- Authorization
+		#### Body
+		```json
+		
+		```
+		<br><br>
+
+	- #### RESPONSE
+		#### Headers
+			- Content-Type
+		#### Body
+		```json
+		{
+			"success": true
+		}
+		```
+--- 
