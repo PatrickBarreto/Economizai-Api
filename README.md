@@ -882,9 +882,9 @@
 --- 
 <br>
 
-## Bond Products List
+## Bond Products Shopping List
 
-- ### Add new product to any list
+- ### Add new product to any shopping list
 	- #### REQUEST
 		#### Endpoint
 			POST /shopping-list/{id}/new-product
@@ -914,7 +914,7 @@
 --- 
 <br>
 
-- ### List products from list
+- ### List products from shopping list
 	- #### REQUEST
 		#### Endpoint
 			GET /shopping-list/{id}/products
@@ -954,7 +954,7 @@
 --- 
 <br>
 
-- ### Delete bond product from list
+- ### Delete bond product from shopping list
 
 	- #### REQUEST
 		#### Endpoint
@@ -981,9 +981,9 @@
 --- 
 <br>
 
-## Bond Products Option List
+## Bond Products Option Shopping List
 
-- ### Add new option to product list
+- ### Add new option to product Shopping list
 	- #### REQUEST
 		#### Endpoint
 			POST /shopping-list/execution/{hash}/{productListId}
@@ -1017,7 +1017,7 @@
 --- 
 <br>
 
-- ### List option from product list
+- ### List option from product shopping list
 	- #### REQUEST
 		#### Endpoint
 			GET /shopping-list/execution/{hash}/{productListId}
@@ -1068,7 +1068,7 @@
 <br>
 
 
-- ### Detail option from product list
+- ### Detail option from product shopping list
 	- #### REQUEST
 		#### Endpoint
 			GET /shopping-list/execution/{hash}/product/option/{productOptionId}
@@ -1098,7 +1098,7 @@
 <br>
 
 
-- ### Delete option from product list
+- ### Delete option from product shopping list
 	- #### REQUEST
 		#### Endpoint
 			DELETE /shopping-list/execution/{hash}/product/option/{productOptionId}
@@ -1124,7 +1124,7 @@
 --- 
 <br>
 
-- ### Find best option product
+- ### Find best option product shopping list
 
 	- #### REQUEST
 		#### Endpoint
