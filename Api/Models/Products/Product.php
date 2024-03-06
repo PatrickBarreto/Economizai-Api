@@ -11,7 +11,6 @@ class Product extends CrudExtension{
     public static string $table = 'products';
 
     protected int $id;
-    protected int $shopping_list_id;
     protected string $name;
     protected string $type;
     protected int $volume;
@@ -22,8 +21,8 @@ class Product extends CrudExtension{
 
     public function createProduct(Request $request) {
         $content = $request->getBody();
-        return $this->insert->setFields(['accounts_id', 'name', 'type'])
-                            ->setValues([$request->currentUser, $content->name, $content->type])
+        return $this->insert->setFields(['accounts_id', 'name', 'type', 'volume', 'unit_mensure'])
+                            ->setValues([$request->currentUser, $content->name, $content->type, $content->volume, $content->unit_mensure])
                             ->runQuery();
     }
 
