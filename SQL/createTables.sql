@@ -1,11 +1,11 @@
 
 CREATE TABLE accounts (
     id int AUTO_INCREMENT PRIMARY KEY,
-    name varchar(255),
-    phone varchar(20),
-    email varchar(255),
-    created timestamp,
-    edited timestamp,
+    name VARCHAR(255),
+    phone VARCHAR(20),
+    email VARCHAR(255),
+    created BIGINT NOT NULL DEFAULT UNIX_TIMESTAMP(),
+    edited BIGINT DEFAULT NULL,
     UNIQUE(email),
     UNIQUE(phone)
 );
@@ -15,8 +15,8 @@ CREATE TABLE shopping_lists (
     accounts_id INT(11),
     name VARCHAR(255),
     type ENUM('food', 'medicine'),
-    created TIMESTAMP,
-    edited TIMESTAMP,
+    created BIGINT NOT NULL DEFAULT UNIX_TIMESTAMP(),
+    edited BIGINT DEFAULT NULL,
     FOREIGN KEY (accounts_id) REFERENCES accounts(id)
 );
 
@@ -25,8 +25,8 @@ CREATE TABLE brands (
     accounts_id INT(11),
     name VARCHAR(255),
     type ENUM('food', 'medicine'),
-    created TIMESTAMP,
-    edited TIMESTAMP,
+    created BIGINT NOT NULL DEFAULT UNIX_TIMESTAMP(),
+    edited BIGINT DEFAULT NULL,
     FOREIGN KEY (accounts_id) REFERENCES accounts(id)
 );
 
@@ -34,8 +34,8 @@ CREATE TABLE categories (
     id INT AUTO_INCREMENT PRIMARY KEY,
     accounts_id INT(11),
     name VARCHAR(255),
-    created TIMESTAMP,
-    edited TIMESTAMP,
+    created BIGINT NOT NULL DEFAULT UNIX_TIMESTAMP(),
+    edited BIGINT DEFAULT NULL,
     FOREIGN KEY (accounts_id) REFERENCES accounts(id)
 );
 
@@ -46,11 +46,9 @@ CREATE TABLE products (
     type ENUM('food', 'medicine'),
     volume INT(11),
     unit_mensure ENUM('mcg', 'mg', 'g', 'kg','mm', 'cm', 'm','mm2', 'cm2', 'm2', 'ml', 'l', 'c3', 'm3'),
-    created TIMESTAMP,
-    edited TIMESTAMP,
-
-    FOREIGN KEY (accounts_id) REFERENCES accounts(id),
-    FOREIGN KEY (brands_id) REFERENCES brands(id)
+    created BIGINT NOT NULL DEFAULT UNIX_TIMESTAMP(),
+    edited BIGINT DEFAULT NULL,
+    FOREIGN KEY (accounts_id) REFERENCES accounts(id)
 );
 
 
@@ -59,6 +57,8 @@ CREATE TABLE bond_categories_products (
     id INT AUTO_INCREMENT PRIMARY KEY,
     categories_id INT(11),
     products_id INT(11),
+    created BIGINT NOT NULL DEFAULT UNIX_TIMESTAMP(),
+    edited BIGINT DEFAULT NULL,
     FOREIGN KEY (categories_id) REFERENCES categories(id),
     FOREIGN KEY (products_id) REFERENCES products(id),
     CONSTRAINT bondCategorieProduct UNIQUE(categories_id, products_id)
@@ -70,9 +70,11 @@ CREATE TABLE bond_categories_brands (
 	id INT AUTO_INCREMENT PRIMARY KEY,
 	brands_id INT(11),
 	categories_id INT(11),
-	CONSTRAINT boundBrandCategories UNIQUE(brands_id, categories_id),
+    created BIGINT NOT NULL DEFAULT UNIX_TIMESTAMP(),
+    edited BIGINT DEFAULT NULL,
 	FOREIGN KEY (brands_id) REFERENCES brands(id),
-	FOREIGN KEY (categories_id) REFERENCES categories(id)
+	FOREIGN KEY (categories_id) REFERENCES categories(id),
+	CONSTRAINT boundBrandCategories UNIQUE(brands_id, categories_id)
 );
 
 
@@ -83,6 +85,8 @@ CREATE TABLE bond_shopping_lists_products(
 	categories_id INT(11),
 	products_id INT(11),
 	amount INT(11),
+    created BIGINT NOT NULL DEFAULT UNIX_TIMESTAMP(),
+    edited BIGINT DEFAULT NULL,
 	FOREIGN KEY(shopping_lists_id) REFERENCES shopping_lists(id),
 	FOREIGN KEY(categories_id) REFERENCES categories(id),
 	FOREIGN KEY(products_id) REFERENCES products(id),
@@ -94,6 +98,8 @@ CREATE TABLE shopping_lists_executions (
     id INT AUTO_INCREMENT PRIMARY KEY,
     shopping_lists_id INT(11),
     execution_hash VARCHAR(33),
+    created BIGINT NOT NULL DEFAULT UNIX_TIMESTAMP(),
+    edited BIGINT DEFAULT NULL,
     FOREIGN KEY(shopping_lists_id) REFERENCES shopping_lists(id),
     CONSTRAINT bondShoppingListExecution UNIQUE(execution_hash)
 );
@@ -110,6 +116,8 @@ CREATE TABLE bond_shopping_lists_products_options (
     unit_mensure ENUM('mcg', 'mg', 'g', 'kg','mm', 'cm', 'm','mm2', 'cm2', 'm2', 'ml', 'l', 'c3', 'm3'),
     quantity INT(11),
     price DOUBLE(10, 2),
+    created BIGINT NOT NULL DEFAULT UNIX_TIMESTAMP(),
+    edited BIGINT DEFAULT NULL,
     FOREIGN KEY(shopping_lists_execution_hash) REFERENCES shopping_lists_executions(execution_hash),
     FOREIGN KEY(brands_id) REFERENCES brands(id),
     FOREIGN KEY(products_id) REFERENCES products(id),
