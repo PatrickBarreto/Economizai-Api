@@ -15,8 +15,8 @@ class Product extends CrudExtension{
     protected string $type;
     protected int $volume;
     protected string $unit_mensure;
-    protected string $created;
-    protected string $edited;
+    protected int $created;
+    protected int $edited;
     
 
     public function createProduct(Request $request) {
@@ -48,10 +48,12 @@ class Product extends CrudExtension{
         return $this->update->setSet([
                                     ['name'=>$content->name],
                                     ['type'=>$content->type],
+                                    ['volume'=>$content->volume],
+                                    ['unit_mensure'=>$content->unit_mensure],
+                                    ['edited'=>time()]
                                 ])
                             ->setWhere('accounts_id = '. $currentUserId. ' AND id = '.$this->id)
                             ->runQuery();
-       
     }
 
 
