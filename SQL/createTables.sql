@@ -5,7 +5,7 @@ CREATE TABLE accounts (
     phone VARCHAR(20),
     email VARCHAR(255),
     created BIGINT NOT NULL DEFAULT UNIX_TIMESTAMP(),
-    edited BIGINT DEFAULT NULL,
+    edited BIGINT DEFAULT 0 NOT NULL,
     UNIQUE(email),
     UNIQUE(phone)
 );
@@ -16,7 +16,7 @@ CREATE TABLE shopping_lists (
     name VARCHAR(255),
     type ENUM('food', 'medicine'),
     created BIGINT NOT NULL DEFAULT UNIX_TIMESTAMP(),
-    edited BIGINT DEFAULT NULL,
+    edited BIGINT DEFAULT 0 NOT NULL,
     FOREIGN KEY (accounts_id) REFERENCES accounts(id)
 );
 
@@ -26,7 +26,7 @@ CREATE TABLE brands (
     name VARCHAR(255),
     type ENUM('food', 'medicine'),
     created BIGINT NOT NULL DEFAULT UNIX_TIMESTAMP(),
-    edited BIGINT DEFAULT NULL,
+    edited BIGINT DEFAULT 0 NOT NULL,
     FOREIGN KEY (accounts_id) REFERENCES accounts(id)
 );
 
@@ -35,7 +35,7 @@ CREATE TABLE categories (
     accounts_id INT(11),
     name VARCHAR(255),
     created BIGINT NOT NULL DEFAULT UNIX_TIMESTAMP(),
-    edited BIGINT DEFAULT NULL,
+    edited BIGINT DEFAULT 0 NOT NULL,
     FOREIGN KEY (accounts_id) REFERENCES accounts(id)
 );
 
@@ -47,7 +47,7 @@ CREATE TABLE products (
     volume INT(11),
     unit_mensure ENUM('mcg', 'mg', 'g', 'kg','mm', 'cm', 'm','mm2', 'cm2', 'm2', 'ml', 'l', 'c3', 'm3'),
     created BIGINT NOT NULL DEFAULT UNIX_TIMESTAMP(),
-    edited BIGINT DEFAULT NULL,
+    edited BIGINT DEFAULT 0 NOT NULL,
     FOREIGN KEY (accounts_id) REFERENCES accounts(id)
 );
 
@@ -58,7 +58,7 @@ CREATE TABLE bond_categories_products (
     categories_id INT(11),
     products_id INT(11),
     created BIGINT NOT NULL DEFAULT UNIX_TIMESTAMP(),
-    edited BIGINT DEFAULT NULL,
+    edited BIGINT DEFAULT 0 NOT NULL,
     FOREIGN KEY (categories_id) REFERENCES categories(id),
     FOREIGN KEY (products_id) REFERENCES products(id),
     CONSTRAINT bondCategorieProduct UNIQUE(categories_id, products_id)
@@ -71,7 +71,7 @@ CREATE TABLE bond_categories_brands (
 	brands_id INT(11),
 	categories_id INT(11),
     created BIGINT NOT NULL DEFAULT UNIX_TIMESTAMP(),
-    edited BIGINT DEFAULT NULL,
+    edited BIGINT DEFAULT 0 NOT NULL,
 	FOREIGN KEY (brands_id) REFERENCES brands(id),
 	FOREIGN KEY (categories_id) REFERENCES categories(id),
 	CONSTRAINT boundBrandCategories UNIQUE(brands_id, categories_id)
@@ -86,7 +86,7 @@ CREATE TABLE bond_shopping_lists_products(
 	products_id INT(11),
 	amount INT(11),
     created BIGINT NOT NULL DEFAULT UNIX_TIMESTAMP(),
-    edited BIGINT DEFAULT NULL,
+    edited BIGINT DEFAULT 0 NOT NULL,
 	FOREIGN KEY(shopping_lists_id) REFERENCES shopping_lists(id),
 	FOREIGN KEY(categories_id) REFERENCES categories(id),
 	FOREIGN KEY(products_id) REFERENCES products(id),
@@ -99,7 +99,7 @@ CREATE TABLE shopping_lists_executions (
     shopping_lists_id INT(11),
     execution_hash VARCHAR(33),
     created BIGINT NOT NULL DEFAULT UNIX_TIMESTAMP(),
-    edited BIGINT DEFAULT NULL,
+    edited BIGINT DEFAULT 0 NOT NULL,
     FOREIGN KEY(shopping_lists_id) REFERENCES shopping_lists(id),
     CONSTRAINT bondShoppingListExecution UNIQUE(execution_hash)
 );
@@ -117,7 +117,7 @@ CREATE TABLE bond_shopping_lists_products_options (
     quantity INT(11),
     price DOUBLE(10, 2),
     created BIGINT NOT NULL DEFAULT UNIX_TIMESTAMP(),
-    edited BIGINT DEFAULT NULL,
+    edited BIGINT DEFAULT 0 NOT NULL,
     FOREIGN KEY(shopping_lists_execution_hash) REFERENCES shopping_lists_executions(execution_hash),
     FOREIGN KEY(brands_id) REFERENCES brands(id),
     FOREIGN KEY(products_id) REFERENCES products(id),
