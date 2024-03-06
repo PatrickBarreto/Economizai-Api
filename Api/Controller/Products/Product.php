@@ -15,7 +15,7 @@ class Product {
 
 
     public static function findUsersProducts(int $currentUser){
-        $product = (new ProductModel)->findAllUsersProducts($currentUser, ['id', 'name', 'type']);
+        $product = (new ProductModel)->findAllUsersProducts($currentUser, ['id', 'name', 'type', 'volume', 'unit_mensure']);
         if($product) {
             return $product;
         }
@@ -25,7 +25,7 @@ class Product {
 
 
     public static function findProduct(Request $request){
-        $product = (new ProductModel)->findProduct($request->currentUser, $request->getPathParams()['id'], ['id', 'accounts_id', 'name', 'type']);
+        $product = (new ProductModel)->findProduct($request->currentUser, $request->getPathParams()['id'], ['id', 'accounts_id', 'name', 'type', 'volume', 'unit_mensure']);
         if($product) {
             return $product;
         }
@@ -35,7 +35,7 @@ class Product {
 
 
     public static function updateProduct(Request $request){
-        $product = (new ProductModel)->findProduct($request->currentUser, $request->getPathParams()['id'], ['id','accounts_id', 'name', 'type'], false);
+        $product = (new ProductModel)->findProduct($request->currentUser, $request->getPathParams()['id'], ['*'], false);
         if($product) {
             return $product->updateProduct($request->currentUser, $request->getBody());
         }
@@ -45,7 +45,7 @@ class Product {
 
 
     public static function deleteProduct(Request $request){
-        $product = (new ProductModel)->findProduct($request->currentUser, $request->getPathParams()['id'], ['id','accounts_id', 'name', 'type'], false);
+        $product = (new ProductModel)->findProduct($request->currentUser, $request->getPathParams()['id'], ['id'], false);
         if($product) {
             return $product->deleteProduct();
         }
