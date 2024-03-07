@@ -46,10 +46,10 @@ class Product extends CrudExtension{
    
     public function updateProduct(int $currentUserId, stdClass $content) {
         return $this->update->setSet([
-                                    ['name'=>$content->name],
-                                    ['type'=>$content->type],
-                                    ['volume'=>$content->volume],
-                                    ['unit_mensure'=>$content->unit_mensure],
+                                    ['name' => empty($content->name) ?  $this->name : $content->name],
+                                    ['type' => empty($content->type) ? $this->type : $content->type],
+                                    ['volume' => empty($content->volume) ? $this->volume : $content->volume],
+                                    ['unit_mensure' => empty($content->unit_mensure) ? $this->unit_mensure : $content->unit_mensure],
                                     ['edited'=>time()]
                                 ])
                             ->setWhere('accounts_id = '. $currentUserId. ' AND id = '.$this->id)
