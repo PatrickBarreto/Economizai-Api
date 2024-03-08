@@ -2,6 +2,7 @@
 
 namespace Api\Http\Middlewares\Authorization;
 
+use Authorizer\JWT\JWT;
 use Exception\Exception;
 use Http\Middleware\MiddlewareInterface;
 
@@ -10,19 +11,17 @@ class Authorization implements MiddlewareInterface {
     
     public function handler($request, $callback){
 
-        if(isset($request->getHeaders()['Authorization'])){
-            //Authorization token é gerado no banco de dados no momento do login e será implementado depois no fluxo de auth, task já criada.
-            $authorization = "MTg=";
-            if($authorization != $request->getHeaders()['Authorization']){
-                Exception::throw('Access denied', 403);
+        if(isset($request->getHeaders()['Authorization']) && $JWT = $request->getHeaders()['Authorization']){
+            if(JWT::validadeToken($JWT)) {
+                $payload = JWT::getPayload($JWT);
+                if($payload){
+                    $request->currentUser = $payload->userData->id;
+                }
+                return $callback($request);
             }
-
-            $request->currentUser = base64_decode($authorization);
-
+            Exception::throw('Invalid token', 403);
         }else {
             Exception::throw('Access denied', 403);
         }
-
-        return $callback($request);
     }
 }
