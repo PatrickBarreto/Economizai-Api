@@ -9,7 +9,10 @@ Http\Http::CORS();
 
 findPhpFiles("./Api/Http/Routes");
 
+Authorizer\JWT\JWT::fillSecretKey(getenv('SECRET_KEY'));
+
 Http\Http::run();
+
 
 function findPhpFiles($dir, $results = array()) {
     $files = scandir($dir);
