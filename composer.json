@@ -19,6 +19,7 @@
         "patrick-barreto/data-base":"^1.0.0",
         "patrick-barreto/dot-env":"^1.0.0",
         "patrick-barreto/exception": "^1.0.0",
-        "patrick-barreto/http": "^1.0.0"
+        "patrick-barreto/http": "^1.0.0",
+        "patrick-barreto/authorizer": "dev-main" 
     }
 }
