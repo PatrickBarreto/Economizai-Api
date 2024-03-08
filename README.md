@@ -118,6 +118,66 @@
 		}
 		```
 --- 
+
+- ### Login
+
+	The login can be with email or phone
+	- #### REQUEST
+		#### Endpoint
+			POST /login
+		#### Headers
+			- Access-Token
+			- Content-Type
+		#### Body
+		```json
+		{
+			"name":"Patrick",
+			"?phone":22997360453,
+			"?email":"co2@gmail.com"
+		}
+		```
+		<br>
+
+	- #### RESPONSE
+		#### Headers
+			- Content-Type
+			- Authorization
+		#### Body
+		```json
+		{
+			"success": true
+		}
+		```
+--- 
+
+- ### Login
+
+	The login can be with email or phone
+	- #### REQUEST
+		#### Endpoint
+			PUT /login
+		#### Headers
+			- Access-Token
+			- Content-Type
+			- Authorization
+		#### Body
+		```json
+		
+		```
+		<br>
+
+	- #### RESPONSE
+		#### Headers
+			- Content-Type
+			- Authorization
+		#### Body
+		```json
+		{
+			"success": true
+		}
+		```
+--- 
+
 <br>
 <br>
 
