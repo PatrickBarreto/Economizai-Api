@@ -4,6 +4,7 @@ CREATE TABLE accounts (
     name VARCHAR(255),
     phone VARCHAR(20),
     email VARCHAR(255),
+    password VARCHAR(33),
     created BIGINT NOT NULL DEFAULT UNIX_TIMESTAMP(),
     edited BIGINT DEFAULT 0 NOT NULL,
     UNIQUE(email),
@@ -16,7 +17,7 @@ CREATE TABLE app_access_tokens (
     token_hash VARCHAR(33),
     created BIGINT NOT NULL DEFAULT UNIX_TIMESTAMP(),
     expires_in BIGINT DEFAULT 0 NOT NULL,
-    expried ENUM('1','0') NOT NULL DEFAULT '0',
+    expired ENUM('1','0') NOT NULL DEFAULT '0',
     UNIQUE(token_hash)
 );
 

@@ -3,6 +3,8 @@
 namespace Api\Controller\Accounts;
 
 use Api\Models\Accounts\Account as ModelAccount;
+use Authorizer\JWT\JWT;
+use Authorizer\JWT\JWTPayload;
 use Exception\Exception;
 use stdClass;
 
@@ -12,6 +14,28 @@ class Account {
         return (new ModelAccount())->createAccount($content);
     }
 
+
+    public static function login(stdClass $content){
+        $user = self::returnAccountInstanceByLoginType($content);
+        if($user){
+            $payload = new JWTPayload($user->getParam('id'), [
+                            'id'=>$user->getParam('id'),
+                            'name'=>$user->getParam('name')
+            ]);
+            $payload->setExp(time()+3600);
+            $JWT = JWT::createToken($payload);
+            header('Authorization: '.$JWT);
+            return;
+        }
+        Exception::throw("Refused login", 200);
+    }
+
+    public static function renewToken(string $JWT){
+        $JWT = JWT::renewToken($JWT, 1);
+        if($JWT){
+            header('Authorization: '.$JWT);
+        }
+    }
 
 
     public function getAccountData(int $id){
@@ -45,5 +69,18 @@ class Account {
             return true;
         }
         Exception::throw("Account not found", 200);
+    }
+
+
+    private static function returnAccountInstanceByLoginType(stdClass $content){
+        if(isset($content->password)){
+            if(isset($content->phone)){
+                return (new ModelAccount())->getUserLoginByPhoneAndPassword($content->phone, $content->password)->fetchObject(false, ModelAccount::class);
+            }
+            if(isset($content->email)){
+                return (new ModelAccount())->getUserLoginByEmailAndPassword($content->email, $content->password)->fetchObject(false, ModelAccount::class);
+            }
+        }
+        Exception::throw("Refused login", 200);
     }
 }

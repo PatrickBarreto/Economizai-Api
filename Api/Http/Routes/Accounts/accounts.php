@@ -11,6 +11,15 @@ Http::post('/accounts',
     }
 );
 
+
+Http::post('/login', 
+    function($request){
+        Account::login($request->getBody());
+        Http::response();
+    }
+);
+
+
 Http::get('/accounts/{id}', 
     function($request){
         $return = (new Account)->getAccountData((int)$request->getPathParams()['id']);
@@ -18,6 +27,16 @@ Http::get('/accounts/{id}',
     }, 
     ['Auth']
 );
+
+
+Http::put('/renewToken', 
+    function($request){
+        Account::renewToken($request->getHeaders()['Authorization']);
+        Http::response();
+    },
+    ['Auth']
+);
+
 
 Http::put('/accounts/{id}',
     function($request){
