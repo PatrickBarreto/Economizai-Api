@@ -29,7 +29,7 @@ class AccessToken implements MiddlewareInterface {
             Exception::throw('Access denied', 403);
         }
 
-        $request->accessToken = $accessToken;
+        $request->accessToken = $accessToken->token_hash;
         return $callback($request);
     }
 }
