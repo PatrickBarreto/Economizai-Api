@@ -5,6 +5,7 @@ namespace Api\Controller\ShoppingLists;
 use Api\Models\Categories\BondCategoryProducts\CategoryProducts;
 use Api\Models\Categories\Category as CategoryModel;
 use Api\Models\ShoppingLists\ShoppingList as ShoppingListsModel;
+use Api\Models\ShoppingLists\ShoppingListExecution;
 use Exception\Exception;
 use Http\Request\Request;
 
@@ -12,6 +13,11 @@ class ShoppingList {
 
     public static function createShoppingList(Request $request) {
         return (new ShoppingListsModel)->createShoppingList($request);
+    }
+  
+    
+    public static function createHash(Request $request) {
+        return (new ShoppingListExecution)->createHashExecution((int)$request->getPathParams()['id']);
     }
     
 

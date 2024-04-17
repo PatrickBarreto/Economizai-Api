@@ -10,6 +10,15 @@ Http::post('/shopping-list/create',
             },['Auth']);
 
 
+
+Http::post('/shopping-list/{id}/create/hash', 
+function($request){
+    $hash = ShoppingList::createHash($request);
+    Http::response($hash);
+},['Auth']);
+
+
+
 Http::get('/shopping-list', 
             function($request){
                 $return = ShoppingList::findUsersShoppingLists($request->currentUser);
