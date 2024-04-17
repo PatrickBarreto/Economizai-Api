@@ -16,10 +16,10 @@
     },
     "require": {
         "php":">=7.0",
-        "patrick-barreto/data-base":"^1.0.0",
+        "patrick-barreto/data-base":"dev-main",
         "patrick-barreto/dot-env":"^1.0.0",
         "patrick-barreto/exception": "^1.0.0",
-        "patrick-barreto/http": "^1.0.0",
+        "patrick-barreto/http": "dev-main",
         "patrick-barreto/authorizer": "dev-main" 
     }
 }
