@@ -31,6 +31,7 @@ class Product extends CrudExtension{
     public function findAllUsersProducts(int $currentUserId, $fields = ['*']) {
         return $this->select->setFields($fields)
                             ->setWhere('accounts_id = '. $currentUserId)
+                            ->setOrder('created', 'DESC')
                             ->fetchAssoc(true);
     }
    
