@@ -2,11 +2,12 @@
 
 namespace Api\Models\Accounts;
 
-use DataBase\CrudExtension;
+use DataBase\RepositoryConnection\DataBaseCorrespondence;
+use DataBase\RepositoryConnection\Repository;
 use stdClass;
 
-class Account extends CrudExtension{
-    public static string $table = 'accounts';
+class Account extends DataBaseCorrespondence{
+    private static string $table = 'accounts';
 
     protected int $id;
     public string $name;
@@ -14,38 +15,42 @@ class Account extends CrudExtension{
     public string $email;
     public string $password;
 
+    public static function getTable(){
+        return self::$table;
+    }
+
     public function getParam(string $paramName){
         return $this->$paramName;
     }
 
     public function createAccount(stdClass $content){
-        return $this->insert->setFields(['name', 'phone', 'email', 'password'])->setValues([$content->name, (string)$content->phone, $content->email, md5($content->password)])->runQuery();
+        return $this->insert()->setFields(['name', 'phone', 'email', 'password'])->setValues([$content->name, (string)$content->phone, $content->email, md5($content->password)])->runQuery();
     }
 
 
     public function getUserLoginByPhoneAndPassword(string $phone, string $password){
-        return $this->select->setFields(['id', 'name', 'phone', 'email'])
+        return $this->select()->setFields(['id', 'name', 'phone', 'email'])
                             ->setWhere('phone = '.$phone.' AND password = "'.md5($password).'"');
     }
 
 
     public function getUserLoginByEmailAndPassword(string $email, string $password){
-        return $this->select->setFields(['id', 'name', 'phone', 'email'])
+        return $this->select()->setFields(['id', 'name', 'phone', 'email'])
                             ->setWhere('email = "'.$email.'" AND password = "'.md5($password).'"');
     }
 
 
     public function getAccountData(int $id, array $fields = ["*"], $array = false){
         if($array){
-            $return = $this->select->setFields($fields)->setWhere('id = '.$id)->fetchAssoc(false);
+            $return = $this->select()->setFields($fields)->setWhere('id = '.$id)->fetchAssoc(false);
         }else {
-            $return = $this->select->setFields($fields)->setWhere('id = '.$id)->fetchObject(false, self::class);
+            $return = $this->select()->setFields($fields)->setWhere('id = '.$id)->fetchObject(false, self::class);
         }
         return $return;
     }
 
     public function updateAccount(){
-        return $this->update->setSet([
+        return $this->update()->setSet([
                                     ['name'=>$this->name], 
                                     ['phone'=>$this->phone], 
                                     ['email'=>$this->email]
@@ -54,7 +59,7 @@ class Account extends CrudExtension{
     }
 
     public function deleteAccount(){
-        return $this->delete->setWhere("id = ".$this->id)->runQuery();
+        return $this->delete()->setWhere("id = ".$this->id)->runQuery();
     }
 
 }

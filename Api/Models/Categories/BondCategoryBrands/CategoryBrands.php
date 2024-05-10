@@ -2,15 +2,19 @@
 
 namespace Api\Models\Categories\BondCategoryBrands;
 
-use DataBase\CrudExtension;
+use DataBase\RepositoryConnection\DataBaseCorrespondence;
 
-class CategoryBrands extends CrudExtension{
+class CategoryBrands extends DataBaseCorrespondence{
 
-    public static string $table = 'bond_categories_brands';
+    private static string $table = 'bond_categories_brands';
 
     protected int $id;
     protected int $categories_id;
     protected int $brands_id;
+    
+    public static function getTable(){
+        return self::$table;
+    }
 
     public function createBond(array $values) {
         return $this->insert->setFields(['categories_id', 'brands_id'])->setValues($values)->runQuery();

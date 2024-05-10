@@ -2,11 +2,11 @@
 
 namespace Api\Models\ShoppingLists\ShoppingListProductOptions;
 
-use DataBase\CrudExtension;
+use DataBase\RepositoryConnection\DataBaseCorrespondence;
 
-class ShoppingListProductOptions extends CrudExtension{
+class ShoppingListProductOptions extends DataBaseCorrespondence{
 
-    public static string $table = 'bond_shopping_lists_products_options';
+    private static string $table = 'bond_shopping_lists_products_options';
 
     protected int $id;
     protected string $shopping_lists_execution_hash;
@@ -18,6 +18,12 @@ class ShoppingListProductOptions extends CrudExtension{
     protected string $unit_mensure;
     protected int $quantity;
     protected float $price;
+
+
+
+    public static function getTable(){
+        return self::$table;
+    }
 
     public function create(array $values) {
 

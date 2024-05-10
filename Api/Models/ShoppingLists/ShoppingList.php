@@ -2,13 +2,13 @@
 
 namespace Api\Models\ShoppingLists;
 
-use DataBase\CrudExtension;
+use DataBase\RepositoryConnection\DataBaseCorrespondence;
 use Http\Request\Request;
 use stdClass;
 
-class ShoppingList extends CrudExtension{
+class ShoppingList extends DataBaseCorrespondence{
 
-    public static string $table = 'shopping_lists';
+    private static string $table = 'shopping_lists';
 
     protected int $id;
     protected int $accounts_id;
@@ -16,6 +16,11 @@ class ShoppingList extends CrudExtension{
     protected string$type;
     protected string $created;
     protected string $edited;
+
+
+    public static function getTable(){
+        return self::$table;
+    }
 
 
     public function getProperty(string $name){

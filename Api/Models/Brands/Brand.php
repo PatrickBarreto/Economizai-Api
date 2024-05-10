@@ -2,13 +2,13 @@
 
 namespace Api\Models\Brands;
 
-use DataBase\CrudExtension;
+use DataBase\RepositoryConnection\DataBaseCorrespondence;
 use Http\Request\Request;
 use stdClass;
 
-class Brand extends CrudExtension{
+class Brand extends DataBaseCorrespondence{
 
-    public static string $table = 'brands';
+    private static string $table = 'brands';
 
     protected int $id;
     protected int $accounts_id;
@@ -17,6 +17,9 @@ class Brand extends CrudExtension{
     protected string $created;
     protected string $edited;
 
+    public static function getTable(){
+        return self::$table;
+    }
 
     public function createBrand(Request $request) {
         $content = $request->getBody();

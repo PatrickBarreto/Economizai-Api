@@ -2,13 +2,13 @@
 
 namespace Api\Models\Categories;
 
-use DataBase\CrudExtension;
+use DataBase\RepositoryConnection\DataBaseCorrespondence;
 use Http\Request\Request;
 use stdClass;
 
-class Category extends CrudExtension{
+class Category extends DataBaseCorrespondence{
 
-    public static string $table = 'categories';
+    private static string $table = 'categories';
 
     protected int $id;
     protected int $accounts_id;
@@ -17,6 +17,10 @@ class Category extends CrudExtension{
     protected string $created;
     protected string $edited;
 
+
+    public static function getTable(){
+        return self::$table;
+    }
 
     public function createCategory(Request $request) {
         $content = $request->getBody();
