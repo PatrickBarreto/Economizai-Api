@@ -17,8 +17,8 @@ class Product {
 
     
     public static function findUsersProducts(int $currentUser){
-        $product = (new ProductRepository(new ProductModel))
-                    ->findAllUsersProducts($currentUser, ['id', 'name', 'type', 'volume', 'unit_mensure']);
+        $productRepository = (new ProductRepository(new ProductModel));
+        $product = $productRepository->findAllUsersProducts($currentUser, ['id', 'name', 'type', 'volume', 'unit_mensure']);
         if($product) {
             return $product;
         }
@@ -28,8 +28,8 @@ class Product {
 
 
     public static function findProduct(Request $request){
-        $product = (new ProductRepository(new ProductModel))
-                    ->findProduct($request->currentUser, $request->getPathParams()['id'], ['id', 'accounts_id', 'name', 'type', 'volume', 'unit_mensure']);
+        $productRepository = (new ProductRepository(new ProductModel));
+        $product = $productRepository->findProduct($request->currentUser, $request->getPathParams()['id'], ['id', 'accounts_id', 'name', 'type', 'volume', 'unit_mensure']);
         if($product) {
             return $product;
         }
@@ -39,10 +39,10 @@ class Product {
 
 
     public static function updateProduct(Request $request){
-        $product = (new ProductRepository(new ProductModel))
-                    ->findProduct((int)$request->currentUser, (int)$request->getPathParams()['id'], ['*'], false);
-        if($product) {
-            return $product->updateProduct($request->currentUser, $request->getBody());
+        $productRepository = (new ProductRepository(new ProductModel));
+        $product = $productRepository->findProduct((int)$request->currentUser, (int)$request->getPathParams()['id'], ['*'], false);
+        if($product instanceof ProductModel) {
+            return $productRepository->updateProduct($request->currentUser, $request->getBody(), $product->getProperty('id'));
         }
         Exception::throw("Product not found", 404);
     }
@@ -50,10 +50,10 @@ class Product {
 
 
     public static function deleteProduct(Request $request){
-        $product = (new ProductRepository(new ProductModel))
-                    ->findProduct($request->currentUser, $request->getPathParams()['id'], ['id'], false);
-        if($product) {
-            return $product->deleteProduct();
+        $productRepository = (new ProductRepository(new ProductModel));
+        $product = $productRepository->findProduct($request->currentUser, $request->getPathParams()['id'], ['id'], false);
+        if($product instanceof ProductModel) {
+            return $productRepository->deleteProduct($product->getProperty('id'));
         }
         Exception::throw("Product not found", 404);
     }

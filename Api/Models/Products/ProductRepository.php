@@ -33,7 +33,7 @@ class ProductRepository extends Repository{
    
    
    
-    public function updateProduct(int $currentUserId, stdClass $content) {
+    public function updateProduct(int $currentUserId, stdClass $content, int $productId) {
         return $this->update()->setSet([
                                     ['name' => empty($content->name) ?  $this->name : $content->name],
                                     ['type' => empty($content->type) ? $this->type : $content->type],
@@ -41,14 +41,14 @@ class ProductRepository extends Repository{
                                     ['unit_mensure' => empty($content->unit_mensure) ? $this->unit_mensure : $content->unit_mensure],
                                     ['edited'=>time()]
                                 ])
-                            ->setWhere('accounts_id = '. $currentUserId. ' AND id = '.$this->id)
+                            ->setWhere('accounts_id = '. $currentUserId. ' AND id = '.$productId)
                             ->runQuery();
     }
 
 
 
-    public function deleteProduct() {
-       return $this->delete()->setWhere('id = '.$this->id)->runQuery();
+    public function deleteProduct(int $productId) {
+       return $this->delete()->setWhere('id = '.$productId)->runQuery();
     }    
 
     

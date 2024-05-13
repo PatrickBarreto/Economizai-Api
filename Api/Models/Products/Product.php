@@ -20,5 +20,9 @@ class Product extends DataBaseCorrespondence{
     public static function getTable(){
         return self::$table;
     }
+
+    public function getProperty(string $propertyName){
+        return $this->$propertyName;
+    }
     
 }
