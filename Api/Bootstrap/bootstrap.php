@@ -5,7 +5,18 @@ require_once "./Api/Http/Middlewares/middlewaresMap.php";
 
 DotEnv\DotEnv::fill(".env");
 
-Http\Http::CORS();
+//To remove error alert for production environment
+//
+//Api\Common\Error\ErrorHandler::prepareErrorHandler();
+
+Api\Common\Log\Log::storageLogRoute('./.Log');
+
+Http\Http::CORS(['*'],
+                 ['POST', 'GET', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+                 ['Content-Type','Access-Token', 'Authorization'], 
+                 false, 
+                 ['Content-Type', 'Authorization'
+                ]);
 
 findPhpFiles("./Api/Http/Routes");
 
