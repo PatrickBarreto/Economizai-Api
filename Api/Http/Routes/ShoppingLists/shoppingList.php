@@ -12,10 +12,10 @@ Http::post('/shopping-list/create',
 
 
 Http::post('/shopping-list/{id}/create/hash', 
-function($request){
-    $hash = ShoppingList::createHash($request);
-    Http::response($hash);
-},['Auth']);
+            function($request){
+                $hash = ShoppingList::createHash($request);
+                Http::response();
+            },['Auth']);
 
 
 

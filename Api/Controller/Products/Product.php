@@ -2,6 +2,7 @@
 
 namespace Api\Controller\Products;
 
+use Api\Common\Log\Log;
 use Api\Models\Products\Product as ProductModel;
 use Api\Models\Products\ProductRepository;
 use Exception\Exception;
@@ -42,7 +43,7 @@ class Product {
         $productRepository = (new ProductRepository(new ProductModel));
         $product = $productRepository->findProduct((int)$request->currentUser, (int)$request->getPathParams()['id'], ['*'], false);
         if($product instanceof ProductModel) {
-            return $productRepository->updateProduct($request->currentUser, $request->getBody(), $product->getProperty('id'));
+            return $productRepository->updateProduct($request->currentUser, $request->getBody(), $product);
         }
         Exception::throw("Product not found", 404);
     }

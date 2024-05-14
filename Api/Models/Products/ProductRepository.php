@@ -33,15 +33,15 @@ class ProductRepository extends Repository{
    
    
    
-    public function updateProduct(int $currentUserId, stdClass $content, int $productId) {
+    public function updateProduct(int $currentUserId, stdClass $content, Product $product) {
         return $this->update()->setSet([
-                                    ['name' => empty($content->name) ?  $this->name : $content->name],
-                                    ['type' => empty($content->type) ? $this->type : $content->type],
-                                    ['volume' => empty($content->volume) ? $this->volume : $content->volume],
-                                    ['unit_mensure' => empty($content->unit_mensure) ? $this->unit_mensure : $content->unit_mensure],
+                                    ['name' => empty($content->name) ?  $product->getProperty('name') : $content->name],
+                                    ['type' => empty($content->type) ? $product->getProperty('type') : $content->type],
+                                    ['volume' => empty($content->volume) ? $product->getProperty('volume') : $content->volume],
+                                    ['unit_mensure' => empty($content->unit_mensure) ? $product->getProperty('unit_mensure') : $content->unit_mensure],
                                     ['edited'=>time()]
                                 ])
-                            ->setWhere('accounts_id = '. $currentUserId. ' AND id = '.$productId)
+                            ->setWhere('accounts_id = '. $currentUserId. ' AND id = '.$product->getProperty('id'))
                             ->runQuery();
     }
 
