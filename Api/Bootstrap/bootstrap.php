@@ -18,24 +18,8 @@ Http\Http::CORS(['*'],
                  ['Content-Type', 'Authorization'
                 ]);
 
-findPhpFiles("./Api/Http/Routes");
+Http\Http::loadRoutesFromPath("./Api/Http/Routes");
 
 Authorizer\JWT\JWT::fillSecretKey(getenv('SECRET_KEY'));
 
 Http\Http::run();
-
-
-function findPhpFiles($dir, $results = array()) {
-    $files = scandir($dir);
-
-    foreach ($files as $key => $value) {
-        $path = realpath($dir . DIRECTORY_SEPARATOR . $value);
-        if (!is_dir($path)) {
-            if (pathinfo($path, PATHINFO_EXTENSION) === 'php') {
-                require_once $path;
-            }
-        } else if ($value != "." && $value != "..") {
-            $results = findPhpFiles($path, $results);
-        }
-    }
-}
