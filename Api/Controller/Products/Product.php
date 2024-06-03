@@ -3,6 +3,8 @@
 namespace Api\Controller\Products;
 
 use Api\Common\Log\Log;
+use Api\Models\Categories\BondCategoryProducts\CategoryProducts;
+use Api\Models\Categories\BondCategoryProducts\CategoryProductsRepository;
 use Api\Models\Products\Product as ProductModel;
 use Api\Models\Products\ProductRepository;
 use Exception\Exception;
@@ -26,6 +28,14 @@ class Product {
         Exception::throw("Product not found", 404);
     }
 
+
+    public static function getProductsWithInformationAboutBondCategory(Request $request){
+        $currentUser = $request->currentUser;
+        $categoryId = $request->getPathParams('id');
+
+        $produtcsRepository = new ProductRepository(new ProductModel);
+        return $produtcsRepository->findAllProductsAndCheckIfBondWithCategory($currentUser, $categoryId);
+    }
 
 
     public static function findProduct(Request $request){

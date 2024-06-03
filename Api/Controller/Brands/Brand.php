@@ -22,7 +22,7 @@ class Brand {
         if($brand) {
             return $brand;
         }
-        Exception::throw("Brand not found", 200);
+        Exception::throw("Brand not found", 404);
     }
 
 
@@ -34,7 +34,7 @@ class Brand {
         if($brand) {
             return $brand;
         }
-        Exception::throw("Brand not found", 200);
+        Exception::throw("Brand not found", 404);
     }
 
 
@@ -42,10 +42,10 @@ class Brand {
     public static function updateBrand(Request $request){
         $brandRepository = (new BrandRepository(new BrandModel));
         $brand = $brandRepository->findBrand($request->currentUser, $request->getPathParams()['id'], ['id','accounts_id', 'name', 'type'], false);
-        if($brand) {
-            return $brandRepository->updateBrand($request->currentUser, $request->getBody(), $brand->getProperty('id'));
+        if($brand instanceof BrandModel) {
+            return $brandRepository->updateBrand($request->currentUser, $request->getBody(), $brand);
         }
-        Exception::throw("Brand not found", 200);
+        Exception::throw("Brand not found", 404);
     }
 
 
@@ -53,9 +53,9 @@ class Brand {
     public static function deleteBrand(Request $request){
         $brandRepository = (new BrandRepository(new BrandModel));
         $brand = $brandRepository->findBrand($request->currentUser, $request->getPathParams()['id'], ['id','accounts_id', 'name', 'type'], false);
-        if($brand) {
+        if($brand instanceof BrandModel) {
             return $brandRepository->deleteBrand($brand->getProperty('id'));
         }
-        Exception::throw("Brand not found", 200);
+        Exception::throw("Brand not found", 404);
     }
 }

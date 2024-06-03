@@ -23,6 +23,12 @@ Http::get('/product/{id}',
             },['Auth']);
 
 
+Http::get('/product/bonds/category/{id}', 
+            function($request){
+                Http::response(Product::getProductsWithInformationAboutBondCategory($request));
+            },['Auth']);
+
+
 Http::put('/product/{id}', 
             function($request){
                 Product::updateProduct($request);

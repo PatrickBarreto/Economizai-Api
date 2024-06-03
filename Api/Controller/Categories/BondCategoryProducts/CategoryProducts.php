@@ -15,7 +15,7 @@ class CategoryProducts {
         $category = $request->getPathParams()['id'];
 
         foreach($request->getBody()->product_id as $productId){
-            $values[] = [$productId, (int)$category];
+            $values[] = [(int)$category, $productId];
         }
         $bondsRepository->createBond($values);
     }

@@ -25,7 +25,7 @@ class Account {
                                         'name'=>$user->getProperty('name')
                                     ]
                                 );
-            $payload->setExp(time()+3600);
+            //$payload->setExp(time()+3600);
             $JWT = JWT::createToken($payload);
             header('Authorization: '.$JWT);
             return;

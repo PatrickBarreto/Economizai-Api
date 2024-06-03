@@ -36,21 +36,37 @@ class CategoryRepository extends Repository{
                     ->setWhere('categories.id = '.$categoryId .' OR categories.id = 0 AND categories.accounts_id = '. $currentUserId)
                     ->fetchAssoc(true);
     }
+
+
+    public function findUsersCategoriesAndBrands(int $currentUserId, int $categoryId){
+        return $this->select()->setFields(['brands.id','brands.name'])
+                    ->setInnerJoin(
+                                ['table'=>'categories'], 
+                                ['table'=>'bond_categories_brands', 'ON'=>'categories_id']
+                                )
+                    ->setInnerJoin(
+                                ['table'=>'bond_categories_brands', 'ON'=>'brands_id'],
+                                ['table'=>'brands']
+                                )
+                    ->setWhere('categories.id = '.$categoryId .' OR categories.id = 0 AND categories.accounts_id = '. $currentUserId)
+                    ->fetchAssoc(true);
+    }
    
     
-    public function findCategory(int $categoryId, array $fields = ['*'], $array = true) {
-        $query = $this->select()->setFields($fields)->setWhere('id = '.$categoryId);
+    public function findCategory(int $currentUserId, int $categoryId, array $fields = ['*'], $array = true) {
+        $query = $this->select()->setFields($fields)->setWhere('accounts_id = 0 OR accounts_id = '.$currentUserId.' AND id = '.$categoryId);
         return ($array) ? $query->fetchAssoc() : $query->fetchObject(false, $this->getDtoPath());
     }
    
    
    
-    public function updateCategory(int $currentUserId, stdClass $content, int $categoryId) {
-        $teste = $this->update()->setSet([
-                                    ['name'=>$content->name]
-                                ])
-                            ->setWhere('accounts_id = '. $currentUserId. ' AND id = '.$categoryId)
-                            ->runQuery();
+    public function updateCategory(int $currentUserId, stdClass $content, Category $category) {
+        return $this->update()->setSet([
+                ['name' => empty($content->name) ?  $category->getProperty('name') : $content->name],
+                ['edited'=>time()]
+            ])
+        ->setWhere('accounts_id = '. $currentUserId. ' AND id = '.$category->getProperty('id'))
+        ->runQuery();
     }
 
 
