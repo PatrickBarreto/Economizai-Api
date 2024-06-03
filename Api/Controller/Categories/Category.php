@@ -57,11 +57,7 @@ class Category {
         $category = $categoryRepository->findCategory($request->currentUser, $request->getPathParams()['id'], ['id','accounts_id', 'name']);
         
         if($category) {
-            $products = $productRepository->findAllProductsAndCheckIfBondWithCategory($request->currentUser, (int)$category['id']);          
-           
-            $products = is_array($products) ? $products : (array)$products;
-          
-            $category['products'] = self::prepareProductDataToRetun($products);
+            $category['products'] = $productRepository->findAllProductsAndCheckIfBondWithCategory($request->currentUser, (int)$category['id']);
             $category['brands'] = $categoryRepository->findUsersCategoriesAndBrands($request->currentUser, (int)$category['id']);
 
             return $category;
@@ -91,16 +87,5 @@ class Category {
             return $categoryRepository->deleteCategory($category->getProperty('id'));
         }
         Exception::throw("Category not found", 404);
-    }
-
-
-    private static function prepareProductDataToRetun(array $products){
-        if($products){
-            $products = array_map(function($product){
-                    $product->productsCategory = explode(',',$product->productsCategory);
-                    return $product;
-                },$products);
-            }
-        return $products;    
     }
 }
