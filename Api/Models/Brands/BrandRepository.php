@@ -2,6 +2,7 @@
 
 namespace Api\Models\Brands;
 
+use Api\Common\Log\Log;
 use DataBase\RepositoryConnection\Repository;
 use Http\Request\Request;
 use stdClass;
@@ -28,18 +29,17 @@ class BrandRepository extends Repository{
    
     public function findBrand(int $currentUserId, int $shopplingList, array $fields = ['*'], $array = true) {
         $query = $this->select()->setFields($fields)->setWhere('accounts_id = '. $currentUserId. ' AND id = '.$shopplingList);
-        
         return ($array) ? $query->fetchAssoc() : $query->fetchObject(false, $this->getDtoPath());
     }
    
    
    
-    public function updateBrand(int $currentUserId, stdClass $content, int $brandId) {
+    public function updateBrand(int $currentUserId, stdClass $content, Brand $brand) {
         return $this->update()->setSet([
-                                    ['name'=>$content->name],
-                                    ['type'=>$content->type],
+                                    ['name'=> $content->name ? $content->name : $brand->getProperty('name')],
+                                    ['type'=> $content->type ? $content->type : $brand->getProperty('type')],
                                 ])
-                            ->setWhere('accounts_id = '. $currentUserId. ' AND id = '.$brandId)
+                            ->setWhere('accounts_id = '. $currentUserId. ' AND id = '.$brand->getProperty('id'))
                             ->runQuery();
        
     }
