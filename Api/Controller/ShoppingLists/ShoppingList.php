@@ -31,7 +31,7 @@ class ShoppingList {
         if($shoppingList) {
             return $shoppingList;
         }
-        Exception::throw("Shopping list not found", 200);
+        Exception::throw("Shopping list not found", 404);
     }
 
 
@@ -44,7 +44,7 @@ class ShoppingList {
             return $shoppingList;
         }
         
-        Exception::throw("Shopping list not found", 200);
+        Exception::throw("Shopping list not found", 404);
     }
 
 
@@ -56,7 +56,7 @@ class ShoppingList {
         if($shoppingList instanceof ShoppingListsModel) {
             return $shoppingListRepository->updateShoppingList($request->currentUser, $request->getBody(), $shoppingList->getProperty('id'));
         }
-        Exception::throw("Shopping list not found", 200);
+        Exception::throw("Shopping list not found", 404);
     }
 
 
@@ -68,6 +68,6 @@ class ShoppingList {
         if($shoppingList instanceof ShoppingListsModel) {
             return $shoppingListRepository->deleteShoppingList($shoppingList->getProperty('id'));
         }
-        Exception::throw("Shopping list not found", 200);
+        Exception::throw("Shopping list not found", 404);
     }
 }
