@@ -7,7 +7,7 @@ use DataBase\RepositoryConnection\Repository;
 class CategoryProductsRepository extends Repository{
 
     public function createBond(array $values) {
-        return $this->insert()->setFields(['products_id', 'categories_id'])->setValues($values)->runQuery();
+        return $this->insert()->setFields(['categories_id','products_id'])->setValues($values)->runQuery();
     }
 
     public function findBonds($products_id, $categories_id, array $fields = ['*']) {
