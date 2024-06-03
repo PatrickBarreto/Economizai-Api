@@ -30,6 +30,22 @@ class ProductRepository extends Repository{
         $query = $this->select()->setFields($fields)->setWhere('accounts_id = '. $currentUserId. ' AND id = '.$productId);
         return ($array) ? $query->fetchAssoc() : $query->fetchObject(false, $this->getDtoPath());
     }
+
+
+    //Preciso trazer toda listagem de produtos, porém, preciso sinalizar qual deles já possui vinculo com a categoria da onde esse endpoint foi chamado.
+
+    public function findAllProductsAndCheckIfBondWithCategory(int $currentUserId, int $categoryID){
+        return $this->select()->setFields(['products.id', 'products.name', 'products.type', 'products.volume', 'products.unit_mensure', 
+                                            '(
+                                                SELECT GROUP_CONCAT(categories_id, "") as categoriesConcat
+                                                FROM bond_categories_products 
+                                                WHERE bond_categories_products.products_id = products.id AND bond_categories_products.categories_id = '.$categoryID.'
+                                            ) as productsCategory'])
+            ->setLeftJoin(['table' => 'products'], ['table' => 'bond_categories_products', 'ON'=>'products_id'] )
+            ->setWhere('products.accounts_id = '. $currentUserId)
+            ->setGroupBy(['products.id'])
+            ->fetchObject(true);
+    }
    
    
    
