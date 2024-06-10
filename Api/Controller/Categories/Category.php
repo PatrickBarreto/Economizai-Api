@@ -110,6 +110,10 @@ class Category {
 
     
 
+    /**
+     * Este método está na controller, mas talvez vire um serviço para ser compartilhado com outras classes.. Um serviço abstrato que vou concluir conforme
+     * for utilizando isso em outros pontos do sistema. 
+     */
     private static function makeBond(Repository $bondsTypeRepository, CategoryModel $category, array $bondable ){
         
         if($bondsTypeRepository instanceof CategoryProductsRepository){
