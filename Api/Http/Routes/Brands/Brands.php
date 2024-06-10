@@ -23,6 +23,12 @@ Http::get('/brands/{id}',
             },['Auth']);
 
 
+Http::get('/brands/bonds/category/{id}', 
+            function($request){
+                Http::response(Brand::findAllBrandsWithInformationAboutBondCategory($request));
+            },['Auth']);
+
+
 Http::put('/brands/{id}', 
             function($request){
                 Brand::updateBrand($request);

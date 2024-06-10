@@ -24,6 +24,20 @@ class BrandRepository extends Repository{
                             ->setWhere('accounts_id = '. $currentUserId)
                             ->fetchAssoc(true);
     }
+
+
+     public function findAllBrandsAndCheckIfBondWithCategory(int $currentUserId, int $categoryID){
+        return $this->select()->setFields(['brands.id', 'brands.name', 'brands.type', 
+                                            '(
+                                                SELECT GROUP_CONCAT(categories_id, "") as categoriesConcat
+                                                FROM bond_categories_brands 
+                                                WHERE bond_categories_brands.brands_id = brands.id AND bond_categories_brands.categories_id = '.$categoryID.'
+                                            ) as brandsCategory'])
+            ->setLeftJoin(['table' => 'brands'], ['table' => 'bond_categories_brands', 'ON'=>'brands_id'] )
+            ->setWhere('brands.accounts_id = '. $currentUserId)
+            ->setGroupBy(['brands.id'])
+            ->fetchObject(true);
+    }
    
    
    
