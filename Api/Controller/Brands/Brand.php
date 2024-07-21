@@ -27,6 +27,15 @@ class Brand {
 
 
 
+    public static function findAllBrandsWithInformationAboutBondCategory(Request $request){
+        $brandsRepository = new BrandRepository(new BrandModel);
+        $currentUser = $request->currentUser;
+        $categoryId = $request->getPathParams('id');
+
+        return $brandsRepository->findAllBrandsAndCheckIfBondWithCategory($currentUser, $categoryId);
+    }
+
+
 
     public static function findBrand(Request $request){
         $brandRepository = (new BrandRepository(new BrandModel));
