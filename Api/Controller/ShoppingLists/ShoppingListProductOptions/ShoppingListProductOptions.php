@@ -6,7 +6,9 @@ use Api\Common\MathOperations\Comparations;
 use Api\Models\Products\Product;
 use Api\Models\ShoppingLists\BondShoppingListProducts\ShoppingListProducts;
 use Api\Models\ShoppingLists\ShoppingListExecution;
+use Api\Models\ShoppingLists\ShoppingListExecutionRepository;
 use Api\Models\ShoppingLists\ShoppingListProductOptions\ShoppingListProductOptions as ShoppingListProductExecutionModel;
+use Api\Models\ShoppingLists\ShoppingListProductOptions\ShoppingListProductOptionsRepository;
 
 use Exception\Exception;
 use Http\Request\Request;
@@ -30,20 +32,26 @@ class ShoppingListProductOptions {
             Exception::throw('Miss information', 200);
         }
 
-        $shoppingListExecution =   (new ShoppingListExecution())->findExecutionsByHash($executionHash);
+        $shoppingListExecution =   (new ShoppingListExecutionRepository(new ShoppingListExecution()))->findExecutionsByHash($executionHash);
        
 
-        return (new ShoppingListProductExecutionModel())->create([
-                                                    $shoppingListExecution->getProperty('execution_hash'),
-                                                    $productListId, 
-                                                    $productOptionId,
-                                                    $productOptionBrandId,
-                                                    $typeDescription,
-                                                    $weight,
-                                                    $unitMensure,
-                                                    $quantity,
-                                                    $price
-                                                ]);
+        if($shoppingListExecution instanceof ShoppingListExecution){
+
+            return (new ShoppingListProductOptionsRepository(new ShoppingListProductExecutionModel()))->create([
+                                                        $shoppingListExecution->getProperty('execution_hash'),
+                                                        $productListId, 
+                                                        $productOptionId,
+                                                        $productOptionBrandId,
+                                                        $typeDescription,
+                                                        $weight,
+                                                        $unitMensure,
+                                                        $quantity,
+                                                        $price
+                                                    ]);
+        }
+
+        Exception::throw('Execution not found', 404);
+
 
     }
 
@@ -52,7 +60,7 @@ class ShoppingListProductOptions {
         $executionHash =    isset($request->getPathParams()['hash']) ? $request->getPathParams()['hash'] : '';
         $productListId =    isset($request->getPathParams()['productListId']) ? (int)$request->getPathParams()['productListId'] : 0;
         
-        $options =   (new ShoppingListProductExecutionModel())->listOptionsByProductList($executionHash, (int)$productListId);
+        $options =   (new ShoppingListProductOptionsRepository(new ShoppingListProductExecutionModel()))->listOptionsByProductList($executionHash, (int)$productListId);
 
         
         if($options){
@@ -68,7 +76,7 @@ class ShoppingListProductOptions {
         $executionHash =   isset($request->getPathParams()['hash']) ? $request->getPathParams()['hash'] : 0;
         $productOptionId = isset($request->getPathParams()['productOptionId']) ? (int)$request->getPathParams()['productOptionId'] : 0;
         
-        $details =   (new ShoppingListProductExecutionModel())->findDetailByProductOptionId($productOptionId, $executionHash);
+        $details =    (new ShoppingListProductOptionsRepository(new ShoppingListProductExecutionModel()))->findDetailByProductOptionId($productOptionId, $executionHash);
 
         if($details){
             return $details;
@@ -83,7 +91,7 @@ class ShoppingListProductOptions {
         $executionHash =   isset($request->getPathParams()['hash']) ? $request->getPathParams()['hash'] : 0;
         $productOptionId = isset($request->getPathParams()['productOptionId']) ? (int)$request->getPathParams()['productOptionId'] : 0;
         
-        $productOption = (new ShoppingListProductExecutionModel)->findProductOption($productOptionId, $executionHash);
+        $productOption =  (new ShoppingListProductOptionsRepository(new ShoppingListProductExecutionModel()))->findProductOption($productOptionId, $executionHash);
 
         if($productOption){
             $productOption->delete();
