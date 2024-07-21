@@ -86,12 +86,22 @@ class Category {
         if($category instanceof CategoryModel) {
             
             $categoryRepository->updateCategory($request->currentUser, $body, $category);
+            $products = [];
+            $brands = [];
 
-            self::makeBond($bondsCategoryProductRepository, $category, $body->products ? $body->products : []);
-            self::makeBond($bondCategoryBrandsRepository, $category, $body->brands ? $body->brands : []);
-
+            if(isset($body->products)){
+                $products = is_array($body->products) ? $body->products : [$body->products];
+            }
+            
+            if(isset($body->brands)){
+                $brands = is_array($body->brands) ? $body->brands : [$body->brands];
+            }
+        
+            self::resolveBond($bondsCategoryProductRepository, $category, $products);
+            self::resolveBond($bondCategoryBrandsRepository, $category, $brands);
 
             return true;
+
         }
         Exception::throw("Category not found", 404);
     }
@@ -114,7 +124,7 @@ class Category {
      * Este método está na controller, mas talvez vire um serviço para ser compartilhado com outras classes.. Um serviço abstrato que vou concluir conforme
      * for utilizando isso em outros pontos do sistema. 
      */
-    private static function makeBond(Repository $bondsTypeRepository, CategoryModel $category, array $bondable ){
+    private static function resolveBond(Repository $bondsTypeRepository, CategoryModel $category, array $bondable ){
         
         if($bondsTypeRepository instanceof CategoryProductsRepository){
             $categoryProductBonds = $bondsTypeRepository->findBondsByCategoryId($category->getProperty('id'), ['GROUP_CONCAT(products_id) as productIds']);   
