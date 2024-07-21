@@ -13,7 +13,7 @@ class AccessToken implements MiddlewareInterface {
 
         if(isset($request->getHeaders()['Access-Token'])){ 
             $accessTokenCrud = new Crud('app_access_tokens');
-            $accessToken = $accessTokenCrud->select->setFields(['*'])->setWhere('business = "localhost"')->fetchObject(false);
+            $accessToken = $accessTokenCrud->select->setFields(['*'])->setWhere('business = "'.getenv('ENVIRONMENT').'"')->fetchObject(false);
 
             if($accessToken->expires_in <= time() ){
                 if($accessToken->expired == 0){
