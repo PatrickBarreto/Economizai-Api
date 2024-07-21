@@ -13,9 +13,9 @@ class ShoppingListExecutionRepository extends Repository{
     }
 
     public function findExecutionsByListId(int $listId) {
-        return $this->select()->setFields(['id', 'shopping_lists_id', 'execution_hash'])
+        return $this->select()->setFields(['id', 'shopping_lists_id', 'execution_hash', 'created'])
                             ->setWhere('shopping_lists_id = '.$listId)
-                            ->fetchObject(false, $this->getDtoPath());
+                            ->fetchObject(true, $this->getDtoPath());
     }
 
     public function findExecutionsByHash(string $hash) {

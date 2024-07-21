@@ -38,9 +38,14 @@ class ShoppingList {
 
     public static function findShoppingList(Request $request){
         $shoppingListRepository = new ShoppingListRepository(new ShoppingListsModel);
+        $shoppingListExecutionRepository = new ShoppingListExecutionRepository(new ShoppingListExecution);
         $shoppingList = $shoppingListRepository->findShoppingList($request->currentUser, $request->getPathParams()['id'], ['id','accounts_id', 'name', 'type']);
         
-        if($shoppingList) {    
+        if($shoppingList) {
+            $executions =  $shoppingListExecutionRepository->findExecutionsByListId($request->getPathParams()['id']);
+            if($executions){
+                $shoppingList['executions'] = array_map(fn($execution)=>['id'=>$execution->getProperty('id'), 'created'=>date('Y-m-d',$execution->getProperty('created'))],$executions);
+            }
             return $shoppingList;
         }
         
