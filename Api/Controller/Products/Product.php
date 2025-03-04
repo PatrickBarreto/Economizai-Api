@@ -68,4 +68,4 @@ class Product {
         }
         Exception::throw("Product not found", 404);
     }
-}
+}   
