@@ -1,3 +1,3 @@
 <?php
 
-include "./Api/bootstrap/bootstrap.php";
+include "./Api/Bootstrap/bootstrap.php";
