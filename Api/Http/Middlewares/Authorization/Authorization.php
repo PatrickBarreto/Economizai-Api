@@ -2,6 +2,7 @@
 
 namespace Api\Http\Middlewares\Authorization;
 
+use Api\Common\Log\Log;
 use Authorizer\JWT\JWT;
 use Exception\Exception;
 use Http\Middleware\MiddlewareInterface;
@@ -11,9 +12,14 @@ class Authorization implements MiddlewareInterface {
     
     public function handler($request, $callback){
 
-        if(isset($request->getHeaders()['Authorization']) && $JWT = $request->getHeaders()['Authorization']){
-            if(JWT::validadeToken($JWT)) {
-                $payload = JWT::getPayload($JWT);
+        if(isset($request->getHeaders()['Authorization']) && $token = $request->getHeaders()['Authorization']){
+
+            if((stripos($token, 'Bearer ')) !== false){
+                $token = substr($token, stripos($token, 'Bearer ') + 7);
+            }
+
+            if(JWT::validadeToken($token)) {
+                $payload = JWT::getPayload($token);
                 if($payload){
                     $request->currentUser = $payload->userData->id;
                 }
