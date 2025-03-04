@@ -25,5 +25,5 @@ jobs:
         context: .
         push: true
         tags: |
-          ghcr.io/${{ github.repository_owner }}/economizai-backend:latest
-          ghcr.io/${{ github.repository_owner }}/economizai-backend:${{ github.sha }}
+          ghcr.io/patrickbarreto/economizai-api:latest
+          ghcr.io/patrickbarreto/economizai-api:${{ github.sha }}
