@@ -3,7 +3,9 @@
 require_once "./vendor/autoload.php";
 require_once "./Api/Http/Middlewares/middlewaresMap.php";
 
-DotEnv\DotEnv::fill(".env");
+if (getenv('ENVIRONMENT') == 'localhost') {
+    DotEnv\DotEnv::fill(".env");
+}
 
 //To remove error alert for production environment
 //

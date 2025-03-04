@@ -22,19 +22,38 @@ class Category {
     public static function createCategory(Request $request) {
         $body = $request->getBody();
 
+        $productsRepository = new ProductRepository(new Product);
+        $brandsRepository = new BrandRepository(new BrandModel);
         $categoryRepository = new CategoryRepository(new CategoryModel);
         $categoryProductsRepository = new CategoryProductsRepository(new CategoryProducts);
         $categoryBrandsRepository = new CategoryBrandsRepository(new CategoryBrands);
 
         $categoryInsertIntance = $categoryRepository->createCategory($request);   
 
+        $productsUser = $productsRepository->findAllUsersProducts($request->currentUser, ['id']);
+        $brandsUser = $brandsRepository->findAllUsersBrand($request->currentUser, ['id']);
+
+        $usersProductsIds = array_map(function($p){
+            return $p['id'];
+        }, $productsUser);
+
+        $usersBrandsIds = array_map(function($b){
+            return $b['id'];
+        }, $brandsUser);
+
         if($body->products){
             foreach($body->products as $product){
+                if (!in_array($product, $usersProductsIds)){
+                    Exception::throw("Invalid product", 404);
+                }
                 $categoryProductsRepository->createBond([$categoryInsertIntance->lastInsertId, $product]);
             }
         }
         if($body->brands){
             foreach($body->brands as $brand){
+                if (!in_array($brand, $usersBrandsIds)){
+                    Exception::throw("Invalid brand", 404);
+                }
                 $categoryBrandsRepository->createBond([$categoryInsertIntance->lastInsertId, $brand]);
             }
         }
