@@ -2,7 +2,6 @@
 .vscode
 SQL
 vendor
-.env
 .env.exemple
 .gitignore
 composer.lock

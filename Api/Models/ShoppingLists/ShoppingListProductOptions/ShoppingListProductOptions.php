@@ -14,7 +14,7 @@ class ShoppingListProductOptions extends DataBaseCorrespondence{
     protected int $products_id;
     protected int $brands_id;
     protected string $type_description;
-    protected float $wheight;
+    protected float $weight;
     protected string $unit_mensure;
     protected int $quantity;
     protected float $price;

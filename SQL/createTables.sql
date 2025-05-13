@@ -62,6 +62,27 @@ CREATE TABLE products (
     FOREIGN KEY (accounts_id) REFERENCES accounts(id)
 );
 
+-- Unit mensures
+CREATE TABLE unit_menture (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    accounts_id INT(11),
+    name VARCHAR(5),
+    created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP(),
+    edited BIGINT DEFAULT 0 NOT NULL,
+    FOREIGN KEY (accounts_id) REFERENCES accounts(id)
+);
+
+-- item types
+CREATE TABLE item_types (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    accounts_id INT(11),
+    name VARCHAR(50),
+    created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP(),
+    edited BIGINT DEFAULT 0 NOT NULL,
+    FOREIGN KEY (accounts_id) REFERENCES accounts(id)
+);
+
+
 
 -- Categories and products bond to identifier what productc can be and grouped
 CREATE TABLE bond_categories_products (
@@ -123,7 +144,7 @@ CREATE TABLE bond_shopping_lists_products_options (
     products_id INT(11), 
     brands_id INT(11), 
     type_description VARCHAR(50),
-    wheight DOUBLE(10, 2),
+    weight DOUBLE(10, 2),
     unit_mensure ENUM('mcg', 'mg', 'g', 'kg','mm', 'cm', 'm','mm2', 'cm2', 'm2', 'ml', 'l', 'c3', 'm3'),
     quantity INT(11),
     price DOUBLE(10, 2),

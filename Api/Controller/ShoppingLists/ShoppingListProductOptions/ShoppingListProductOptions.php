@@ -4,7 +4,9 @@ namespace Api\Controller\ShoppingLists\ShoppingListProductOptions;
 
 use Api\Common\MathOperations\Comparations;
 use Api\Models\Products\Product;
+use Api\Models\Products\ProductRepository;
 use Api\Models\ShoppingLists\BondShoppingListProducts\ShoppingListProducts;
+use Api\Models\ShoppingLists\BondShoppingListProducts\ShoppingListProductsRepository;
 use Api\Models\ShoppingLists\ShoppingListExecution;
 use Api\Models\ShoppingLists\ShoppingListExecutionRepository;
 use Api\Models\ShoppingLists\ShoppingListProductOptions\ShoppingListProductOptions as ShoppingListProductExecutionModel;
@@ -107,9 +109,9 @@ class ShoppingListProductOptions {
         $executionHash =  isset($request->getPathParams()['hash']) ? $request->getPathParams()['hash'] : '';
         $productListId =  isset($request->getPathParams()['productListId']) ? (int)$request->getPathParams()['productListId'] : 0;
         
-        $productIten = (new ShoppingListProducts)->findBondsById($productListId);
-        $products = (new Product)->findProduct($request->currentUser, $productIten->getProperty('products_id'));
-        $options = (new ShoppingListProductExecutionModel())->listOptionsByProductList($executionHash, (int)$productListId);
+        $productIten = (new ShoppingListProductsRepository(new ShoppingListProducts))->findBondsById($productListId);
+        $products = (new ProductRepository(new Product))->findProduct($request->currentUser, $productIten->getProperty('products_id'));
+        $options = (new ShoppingListProductOptionsRepository(new ShoppingListProductExecutionModel()))->listOptionsByProductList($executionHash, (int)$productListId);
         
         $data = [];
         $data['calcType'] = $products['unit_mensure'];
