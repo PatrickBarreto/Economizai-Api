@@ -16,7 +16,7 @@ class ShoppingListProductOptionsRepository extends Repository{
                                         'products_id',
                                         'brands_id',
                                         'type_description',
-                                        'wheight',
+                                        'weight',
                                         'unit_mensure',
                                         'quantity',
                                         'price'
