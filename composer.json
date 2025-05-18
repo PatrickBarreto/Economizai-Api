@@ -9,6 +9,10 @@
         }
     ],
     "minimum-stability": "stable",
+    "scripts":{
+      "docker:build": "docker stop c-economizai-api-test && docker rm c-economizai-api-test && docker build -t economizai-app-test . && docker run -d -p 81:80 --name c-economizai-api-test economizai-app-test",
+      "docker:stop": "docker stop c-economizai-api-test"
+    },
     "autoload": {
         "psr-4": {
             "Api\\": "./Api"

@@ -2,6 +2,7 @@
 
 namespace Api\Models\Categories;
 
+use Api\Common\Log\Log;
 use DataBase\RepositoryConnection\Repository;
 use Http\Request\Request;
 use stdClass;
@@ -70,7 +71,7 @@ class CategoryRepository extends Repository{
     }
 
 
-    public function deleteCategory(int $categoryId) {
-       return $this->delete()->setWhere('id = '.$categoryId)->runQuery();
+    public function deleteCategory(int $currentUserId, int $categoryId) {
+      return $this->delete()->setWhere('accounts_id = '. $currentUserId.' AND id = '.$categoryId)->runQuery();
     }    
 }

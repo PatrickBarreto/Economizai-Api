@@ -60,8 +60,8 @@ class BrandRepository extends Repository{
 
 
 
-    public function deleteBrand(int $brandId) {
-       return $this->delete()->setWhere('id = '.$brandId)->runQuery();
+    public function deleteBrand(int $currentUserId, int $brandId) {
+       return $this->delete()->setWhere('accounts_id = '. $currentUserId. ' AND id = '.$brandId)->runQuery();
     }    
 
     
