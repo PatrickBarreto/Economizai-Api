@@ -130,9 +130,9 @@ class Category {
     public static function deleteCategory(Request $request){
         $categoryRepository = (new CategoryRepository(new CategoryModel));
         $category = $categoryRepository->findCategory($request->currentUser, $request->getPathParams()['id'], ['id','accounts_id', 'name'], false);
-    
+
         if($category instanceof CategoryModel) {
-            return $categoryRepository->deleteCategory($category->getProperty('id'));
+          return $categoryRepository->deleteCategory($request->currentUser, $category->getProperty('id'));
         }
         Exception::throw("Category not found", 404);
     }

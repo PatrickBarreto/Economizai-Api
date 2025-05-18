@@ -63,7 +63,7 @@ class Brand {
         $brandRepository = (new BrandRepository(new BrandModel));
         $brand = $brandRepository->findBrand($request->currentUser, $request->getPathParams()['id'], ['id','accounts_id', 'name', 'type'], false);
         if($brand instanceof BrandModel) {
-            return $brandRepository->deleteBrand($brand->getProperty('id'));
+            return $brandRepository->deleteBrand($request->currentUser, $brand->getProperty('id'));
         }
         Exception::throw("Brand not found", 404);
     }
