@@ -21,9 +21,6 @@ WORKDIR /usr/share/nginx/html
 COPY . .
 COPY default.conf /etc/nginx/http.d/default.conf
 
-COPY .Log /usr/share/nginx/html/.Log
-RUN chmod -R 777 /usr/share/nginx/html/.Log
-
 EXPOSE 80
 
 RUN composer install
