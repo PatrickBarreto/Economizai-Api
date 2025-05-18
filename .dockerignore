@@ -1,7 +1,8 @@
+.github
 .vscode
-SQL
-vendor
 .env.exemple
 .gitignore
+SQL
+vendor
 composer.lock
 Dockerfile
