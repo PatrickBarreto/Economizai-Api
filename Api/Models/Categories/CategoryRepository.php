@@ -55,7 +55,7 @@ class CategoryRepository extends Repository{
    
     
     public function findCategory(int $currentUserId, int $categoryId, array $fields = ['*'], $array = true) {
-        $query = $this->select()->setFields($fields)->setWhere('accounts_id = 0 OR accounts_id = '.$currentUserId.' AND id = '.$categoryId);
+        $query = $this->select()->setFields($fields)->setWhere(' id = '.$categoryId.' AND accounts_id = 0 OR accounts_id = '.$currentUserId);
         return ($array) ? $query->fetchAssoc() : $query->fetchObject(false, $this->getDtoPath());
     }
    
