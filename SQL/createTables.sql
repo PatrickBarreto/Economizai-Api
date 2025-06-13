@@ -55,8 +55,6 @@ CREATE TABLE products (
     accounts_id INT(11),
     name VARCHAR(255),
     type ENUM('food', 'medicine'),
-    volume INT(11),
-    unit_mensure ENUM('mcg', 'mg', 'g', 'kg','mm', 'cm', 'm','mm2', 'cm2', 'm2', 'ml', 'l', 'c3', 'm3'),
     created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP(),
     edited BIGINT DEFAULT 0 NOT NULL,
     FOREIGN KEY (accounts_id) REFERENCES accounts(id)

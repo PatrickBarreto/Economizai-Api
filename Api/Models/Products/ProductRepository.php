@@ -10,11 +10,21 @@ class ProductRepository extends Repository{
 
     public function createProduct(Request $request) {
         $content = $request->getBody();
-        return $this->insert()->setFields(['accounts_id', 'name', 'type', 'volume', 'unit_mensure'])
-                            ->setValues([$request->currentUser, $content->name, $content->type, $content->volume, $content->unit_mensure])
+        $this->insert()->setFields(['accounts_id', 'name', 'type'])
+                            ->setValues([$request->currentUser, $content->name, $content->type])
                             ->runQuery();
-    }
+        return true;
+      }
 
+    public function CreateAndReturnProductId(Request $request) {
+      $content = $request->getBody();
+      $result = $this->insert()->setFields(['accounts_id', 'name', 'type'])
+                            ->setValues([$request->currentUser, $content->name, $content->type])
+                            ->runQuery();
+
+      return $result->lastInsertId;
+    }
+   
 
 
     public function findAllUsersProducts(int $currentUserId, $fields = ['*']) {
@@ -33,9 +43,9 @@ class ProductRepository extends Repository{
 
 
     //Preciso trazer toda listagem de produtos, porém, preciso sinalizar qual deles já possui vinculo com a categoria da onde esse endpoint foi chamado.
-
+    //REVISAR ISSO 
     public function findAllProductsAndCheckIfBondWithCategory(int $currentUserId, int $categoryID){
-        return $this->select()->setFields(['products.id', 'products.name', 'products.type', 'products.volume', 'products.unit_mensure', 
+        return $this->select()->setFields(['products.id', 'products.name', 'products.type', 
                                             '(
                                                 SELECT GROUP_CONCAT(categories_id, "") as categoriesConcat
                                                 FROM bond_categories_products 
@@ -53,8 +63,6 @@ class ProductRepository extends Repository{
         return $this->update()->setSet([
                                     ['name' => empty($content->name) ?  $product->getProperty('name') : $content->name],
                                     ['type' => empty($content->type) ? $product->getProperty('type') : $content->type],
-                                    ['volume' => empty($content->volume) ? $product->getProperty('volume') : $content->volume],
-                                    ['unit_mensure' => empty($content->unit_mensure) ? $product->getProperty('unit_mensure') : $content->unit_mensure],
                                     ['edited'=>time()]
                                 ])
                             ->setWhere('accounts_id = '. $currentUserId. ' AND id = '.$product->getProperty('id'))

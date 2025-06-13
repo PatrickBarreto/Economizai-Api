@@ -11,12 +11,9 @@ class Product extends DataBaseCorrespondence{
     protected int $id;
     protected string $name;
     protected string $type;
-    protected int $volume;
-    protected string $unit_mensure;
     protected int $created;
     protected int $edited;
     
-
     public static function getTable(){
         return self::$table;
     }

@@ -5,6 +5,8 @@ namespace Api\Controller\Products;
 use Api\Common\Log\Log;
 use Api\Models\Categories\BondCategoryProducts\CategoryProducts;
 use Api\Models\Categories\BondCategoryProducts\CategoryProductsRepository;
+use Api\Models\Categories\Category;
+use Api\Models\Categories\CategoryRepository;
 use Api\Models\Products\Product as ProductModel;
 use Api\Models\Products\ProductRepository;
 use Exception\Exception;
@@ -13,15 +15,25 @@ use Http\Request\Request;
 class Product {
 
     public static function createProduct(Request $request) {
-        return (new ProductRepository(new ProductModel))
-                ->createProduct($request);
+      $productRepository = (new ProductRepository(new ProductModel));
+      $categoryProductBondRepository = (new CategoryProductsRepository(new CategoryProducts));
+      
+      $productId = $productRepository->CreateAndReturnProductId($request);
+      $categoryIds = $request->getBody()->categories;
+      
+      if($categoryIds) {
+        $categoryProductBondRepository->createBond($productId, $categoryIds);
+      }
+      
+      return true;
     }
     
 
     
     public static function findUsersProducts(int $currentUser){
         $productRepository = (new ProductRepository(new ProductModel));
-        $product = $productRepository->findAllUsersProducts($currentUser, ['id', 'name', 'type', 'volume', 'unit_mensure']);
+        $product = $productRepository->findAllUsersProducts($currentUser, ['id', 'name', 'type']);
+
         if($product) {
             return $product;
         }
@@ -40,8 +52,12 @@ class Product {
 
     public static function findProduct(Request $request){
         $productRepository = (new ProductRepository(new ProductModel));
-        $product = $productRepository->findProduct($request->currentUser, $request->getPathParams()['id'], ['id', 'accounts_id', 'name', 'type', 'volume', 'unit_mensure']);
+        $categoryProductBondRepository = (new CategoryProductsRepository(new CategoryProducts));
+
+        $product = $productRepository->findProduct($request->currentUser, $request->getPathParams()['id'], ['id', 'accounts_id', 'name', 'type']);
         if($product) {
+            $bonds = $categoryProductBondRepository->findBondCategoriesByProductId($product['id']);
+            $product['categories'] = $bonds;
             return $product;
         }
         Exception::throw("Product not found", 404);
@@ -51,9 +67,16 @@ class Product {
 
     public static function updateProduct(Request $request){
         $productRepository = (new ProductRepository(new ProductModel));
-        $product = $productRepository->findProduct((int)$request->currentUser, (int)$request->getPathParams()['id'], ['*'], false);
+        $categoryProductBondRepository = (new CategoryProductsRepository(new CategoryProducts));
+
+        $product = $productRepository->findProduct((int)$request->currentUser, (int)$request->getPathParams()['id'], ['id'], false);
         if($product instanceof ProductModel) {
-            return $productRepository->updateProduct($request->currentUser, $request->getBody(), $product);
+          $newProductData = $request->getBody();
+          $productRepository->updateProduct($request->currentUser, $newProductData, $product);
+          if(isset($newProductData->categories)) {
+            $categoryProductBondRepository->updateBonds($product->getProperty('id'), $newProductData->categories);
+          }
+          return true;
         }
         Exception::throw("Product not found", 404);
     }
