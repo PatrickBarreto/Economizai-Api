@@ -17,6 +17,14 @@ class BrandRepository extends Repository{
                             ->runQuery();
     }
 
+    public function CreateAndReturnBrandId(Request $request) {
+      $content = $request->getBody();
+      $result = $this->insert()->setFields(['accounts_id', 'name', 'type'])
+                            ->setValues([$request->currentUser, $content->name, $content->type])
+                            ->runQuery();
+
+      return $result->lastInsertId;
+    }
 
 
     public function findAllUsersBrand(int $currentUserId, $fields = ['*']) {
@@ -57,7 +65,6 @@ class BrandRepository extends Repository{
                             ->runQuery();
        
     }
-
 
 
     public function deleteBrand(int $currentUserId, int $brandId) {
