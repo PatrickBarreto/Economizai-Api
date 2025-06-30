@@ -56,7 +56,7 @@ class Product {
 
         $product = $productRepository->findProduct($request->currentUser, $request->getPathParams()['id'], ['id', 'accounts_id', 'name', 'type']);
         if($product) {
-            $bonds = $categoryProductBondRepository->findBondCategoriesByProductId($product['id']);
+            $bonds = $categoryProductBondRepository->findBondCategoriesByProductId($product['id'], $request->currentUser);
             $product['categories'] = $bonds;
             return $product;
         }
