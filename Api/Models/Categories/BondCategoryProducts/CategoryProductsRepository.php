@@ -2,9 +2,10 @@
 
 namespace Api\Models\Categories\BondCategoryProducts;
 
+use Api\Models\Categories\BondInterface;
 use DataBase\RepositoryConnection\Repository;
 
-class CategoryProductsRepository extends Repository{
+class CategoryProductsRepository extends Repository implements BondInterface{
 
     public function createBond(int $productId, array $categories) {
         $bondedValues = [];
@@ -13,6 +14,14 @@ class CategoryProductsRepository extends Repository{
         }
         
         return $this->insert()->setFields(['categories_id','products_id'])->setValues($bondedValues)->runQuery();
+    }
+
+    public function createBondCategory(int $categoryId, array $products) {
+        $bondedValues = [];
+        foreach($products as $product){
+          array_push($bondedValues, [$categoryId, $product]);
+        }
+        return $this->insert()->setFields(['categories_id', 'products_id'])->setValues($bondedValues)->runQuery();
     }
 
     public function findBonds($products_id, $categories_id, array $fields = ['*']) {
@@ -33,6 +42,11 @@ class CategoryProductsRepository extends Repository{
 
     public function deleteBond(int $id) {
         return $this->delete()->setWhere('id = '.$id)->runQuery();
+    }
+
+    public function deleteAllBond(int $categorieId, array $productsId) {
+      $productsId = implode(",", $productsId);
+      return $this->delete()->setWhere('categories_id = '.$categorieId.' AND products_id IN ('.$productsId.')')->runQuery();
     }
 
     public function updateBonds(int $productsId, array $categories) {

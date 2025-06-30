@@ -19,7 +19,7 @@ class CategoryRepository extends Repository{
 
     public function findAllUsersCategories(int $currentUserId, $fields = ['*']) {
         return $this->select()->setFields($fields)
-                            ->setWhere('accounts_id = 0 OR accounts_id = '. $currentUserId)
+                            ->setWhere('accounts_id = 0 OR accounts_id = '. $currentUserId)->setOrder("id","DESC")
                             ->fetchAssoc(true);
     }
    
@@ -49,16 +49,17 @@ class CategoryRepository extends Repository{
                                 ['table'=>'bond_categories_brands', 'ON'=>'brands_id'],
                                 ['table'=>'brands']
                                 )
-                    ->setWhere('categories.id = '.$categoryId .' OR categories.id = 0 AND categories.accounts_id = '. $currentUserId)
+                    ->setWhere('categories.id = 0 OR categories.id = '.$categoryId .' AND categories.accounts_id = '. $currentUserId)
                     ->fetchAssoc(true);
     }
    
     
     public function findCategory(int $currentUserId, int $categoryId, array $fields = ['*'], $array = true) {
-        $query = $this->select()->setFields($fields)->setWhere(' id = '.$categoryId.' AND accounts_id = 0 OR accounts_id = '.$currentUserId);
+        $query = $this->select()->setFields($fields)->setWhere(
+          ' id = '.$categoryId.' AND accounts_id IN ('.$currentUserId.',0)'
+        );
         return ($array) ? $query->fetchAssoc() : $query->fetchObject(false, $this->getDtoPath());
     }
-   
    
    
     public function updateCategory(int $currentUserId, stdClass $content, Category $category) {
