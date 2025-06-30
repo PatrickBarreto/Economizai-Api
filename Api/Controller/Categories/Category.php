@@ -10,55 +10,46 @@ use Api\Models\Categories\BondCategoryBrands\CategoryBrandsRepository;
 use Api\Models\Categories\BondCategoryProducts\CategoryProducts;
 use Api\Models\Products\ProductRepository;
 use Api\Models\Categories\BondCategoryProducts\CategoryProductsRepository;
+use Api\Models\Categories\BondInterface;
 use Api\Models\Categories\Category as CategoryModel;
 use Api\Models\Categories\CategoryRepository;
 use Api\Models\Products\Product;
-use DataBase\RepositoryConnection\Repository;
 use Exception\Exception;
 use Http\Request\Request;
 
 class Category {
 
     public static function createCategory(Request $request) {
-        $body = $request->getBody();
+      $productsRepository = new ProductRepository(new Product);
+      $brandsRepository = new BrandRepository(new BrandModel);
+      $categoryRepository = new CategoryRepository(new CategoryModel);
+      $categoryProductsRepository = new CategoryProductsRepository(new CategoryProducts);
+      $categoryBrandsRepository = new CategoryBrandsRepository(new CategoryBrands);
 
-        $productsRepository = new ProductRepository(new Product);
-        $brandsRepository = new BrandRepository(new BrandModel);
-        $categoryRepository = new CategoryRepository(new CategoryModel);
-        $categoryProductsRepository = new CategoryProductsRepository(new CategoryProducts);
-        $categoryBrandsRepository = new CategoryBrandsRepository(new CategoryBrands);
+      $body = $request->getBody();
 
-        $categoryInsertIntance = $categoryRepository->createCategory($request);   
+      $categoryInsertIntance = $categoryRepository->createCategory($request);   
 
-        $productsUser = $productsRepository->findAllUsersProducts($request->currentUser, ['id']);
-        $brandsUser = $brandsRepository->findAllUsersBrand($request->currentUser, ['id']);
+      $productsUser = $productsRepository->findAllUsersProducts($request->currentUser, ['id']);
+      $brandsUser = $brandsRepository->findAllUsersBrand($request->currentUser, ['id']);
 
-        $usersProductsIds = array_map(function($p){
-            return $p['id'];
-        }, $productsUser);
+      $usersProductsIds = array_map(function($p){
+          return $p['id'];
+      }, $productsUser);
 
-        $usersBrandsIds = array_map(function($b){
-            return $b['id'];
-        }, $brandsUser);
+      $usersBrandsIds = array_map(function($b){
+          return $b['id'];
+      }, $brandsUser);
 
-        if($body->products){
-            foreach($body->products as $product){
-                if (!in_array($product, $usersProductsIds)){
-                    Exception::throw("Invalid product", 404);
-                }
-                $categoryProductsRepository->createBond([$categoryInsertIntance->lastInsertId, $product]);
-            }
-        }
-        if($body->brands){
-            foreach($body->brands as $brand){
-                if (!in_array($brand, $usersBrandsIds)){
-                    Exception::throw("Invalid brand", 404);
-                }
-                $categoryBrandsRepository->createBond([$categoryInsertIntance->lastInsertId, $brand]);
-            }
-        }
+      if($body->products && $usersProductsIds && array_intersect($body->products, $usersProductsIds)){
+        $categoryProductsRepository->createBondCategory($categoryInsertIntance->lastInsertId, $body->products);
+      }
 
-        return true;
+      if($body->brands && $usersBrandsIds && array_intersect($body->brands, $usersBrandsIds)){
+        $categoryBrandsRepository->createBondCategory($categoryInsertIntance->lastInsertId, $body->brands);
+      }
+
+      return true;
     }
     
 
@@ -77,52 +68,62 @@ class Category {
 
     public static function findCategory(Request $request){
         $categoryRepository = new CategoryRepository(new CategoryModel);
-        $brandsRepository = new BrandRepository(new BrandModel);
-        $productRepository = new ProductRepository(new Product);
+        $brandCategoriesRepository = new CategoryBrandsRepository(new CategoryBrands);
+        $productCategoriesRepository = new CategoryProductsRepository(new CategoryProducts);
        
-        $category = $categoryRepository->findCategory($request->currentUser, $request->getPathParams()['id'], ['id','accounts_id', 'name']);
-        
-        if($category) {
-            $category['products'] = $productRepository->findAllProductsAndCheckIfBondWithCategory($request->currentUser, (int)$category['id']);
-            $category['brands'] = $brandsRepository->findAllBrandsAndCheckIfBondWithCategory($request->currentUser, (int)$category['id']);
+        $category = $categoryRepository->findCategory($request->currentUser, $request->getPathParams()['id'], ['id','accounts_id', 'name'], false);
+        $category->products = [];
+        $category->brands = [];
 
-            return $category;
+        if($category instanceof CategoryModel) {
+          
+            $toReturn = [
+              "id" => $category->getProperty('id'),
+              "name"=>  $category->getProperty('name'),
+              "accounts_id"=> $category->getProperty('accounts_id'),
+              "products"=> $productCategoriesRepository->findBondsByCategoryId($category->getProperty('id')),
+              "brands"=> $brandCategoriesRepository->findBondsByCategoryId($category->getProperty('id'))
+            ];
+
+          return $toReturn;
         }
         Exception::throw("Category not found", 404);
     }
 
 
 
-    public static function updateCategory(Request $request){
-        $body = (object)$request->getBody();
+    public static function updateCategory(Request $request){     
+      $categoryRepository             = new CategoryRepository(new CategoryModel); 
+      $bondsCategoryProductRepository = new CategoryProductsRepository(new CategoryProducts);
+      $bondCategoryBrandsRepository   = new CategoryBrandsRepository(new CategoryBrands);
+      
+      $body = (object)$request->getBody();
+      $category = $categoryRepository->findCategory($request->currentUser, $request->getPathParams()['id'], ['id','accounts_id', 'name'], false);
+      
+      if($category->getProperty('accounts_id') == 0){
+        Exception::throw("invalid operation", 400);
+      }
 
-        $categoryRepository             = new CategoryRepository(new CategoryModel); 
-        $bondsCategoryProductRepository = new CategoryProductsRepository(new CategoryProducts);
-        $bondCategoryBrandsRepository   = new CategoryBrandsRepository(new CategoryBrands);
-        
-        $category = $categoryRepository->findCategory($request->currentUser, $request->getPathParams()['id'], ['id','accounts_id', 'name'], false);
-        
-        if($category instanceof CategoryModel) {
-            
-            $categoryRepository->updateCategory($request->currentUser, $body, $category);
-            $products = [];
-            $brands = [];
+      if($category instanceof CategoryModel) {
+          
+          $categoryRepository->updateCategory($request->currentUser, $body, $category);
+          $products = [];
+          $brands = [];
 
-            if(isset($body->products)){
-                $products = is_array($body->products) ? $body->products : [$body->products];
-            }
-            
-            if(isset($body->brands)){
-                $brands = is_array($body->brands) ? $body->brands : [$body->brands];
-            }
-        
-            self::resolveBond($bondsCategoryProductRepository, $category, $products);
-            self::resolveBond($bondCategoryBrandsRepository, $category, $brands);
+          if(isset($body->products)){
+              $products = is_array($body->products) ? $body->products : [$body->products];
+              static::resolveBond($bondsCategoryProductRepository, $category, $products, "products");
+          }
+          
+          if(isset($body->brands)){
+              $brands = is_array($body->brands) ? $body->brands : [$body->brands];
+              static::resolveBond($bondCategoryBrandsRepository, $category, $brands, "brands");
+          }
 
-            return true;
+          return true;
 
-        }
-        Exception::throw("Category not found", 404);
+      }
+      Exception::throw("Category not found", 404);
     }
 
 
@@ -137,55 +138,33 @@ class Category {
         Exception::throw("Category not found", 404);
     }
 
-    
 
-    /**
+     /**
      * Este método está na controller, mas talvez vire um serviço para ser compartilhado com outras classes.. Um serviço abstrato que vou concluir conforme
      * for utilizando isso em outros pontos do sistema. 
      */
-    private static function resolveBond(Repository $bondsTypeRepository, CategoryModel $category, array $bondable ){
-        
-        if($bondsTypeRepository instanceof CategoryProductsRepository){
-            $categoryProductBonds = $bondsTypeRepository->findBondsByCategoryId($category->getProperty('id'), ['GROUP_CONCAT(products_id) as productIds']);   
-            $categoryProductBonds = array_map(function ($id) {
-                                                return (int)$id;
-                                            },explode(',', $categoryProductBonds[0]['productIds']));
-    
-            if($bondable || $categoryProductBonds){
-                $toCrerateBond = array_diff($bondable, $categoryProductBonds);
-                $toRemoveBond = array_diff($categoryProductBonds, $bondable);
-    
-                foreach($toCrerateBond as $bondProductIdToCreate){
-                    $bondsTypeRepository->createBond([$category->getProperty('id'), $bondProductIdToCreate]);
-                }
-    
-                if($toRemoveBond){
-                    $bondsTypeRepository->deleteAllBond($category->getProperty('id'), implode(",", $toRemoveBond));
-                }
+    private static function resolveBond (BondInterface $bondsTypeRepository, CategoryModel $category, array $bondable, string $bondType ) {
+      $column = $bondType == "products" ? "products_id" : "brands_id";
 
-            }
+      $categoryBonds = $bondsTypeRepository->findBondsByCategoryId($category->getProperty('id'), ['id', $column]);   
 
-            return;
+      $categoryBonds = array_map(function ($bond) use ($column) {
+        return $bond[$column];
+      }, $categoryBonds);
+                  
+      if($bondable || $categoryBonds){
+          $toCrerateBond = array_diff($bondable, $categoryBonds);
+          $toRemoveBond = array_diff($categoryBonds, $bondable);
+          
+          if($toCrerateBond){
+            $bondsTypeRepository->createBondCategory($category->getProperty('id'), $toCrerateBond);
+          }
+
+          if($toRemoveBond){
+              $bondsTypeRepository->deleteAllBond($category->getProperty('id'), $toRemoveBond);
+          }
         }
-        
-        if($bondsTypeRepository instanceof CategoryBrandsRepository){
-            $categoryBrandsBonds = $bondsTypeRepository->findBondsByCategoryId($category->getProperty('id'), ['GROUP_CONCAT(brands_id) as brandsId']);
-            $categoryBrandsBonds = array_map(function ($id) {
-                                                return (int)$id;
-                                            },explode(',', $categoryBrandsBonds[0]['brandsId']));
-    
-            if($bondable || $categoryBrandsBonds){
-                $toCrerateBond = array_diff($bondable, $categoryBrandsBonds);
-                $toRemoveBond = array_diff($categoryBrandsBonds, $bondable);
-    
-                foreach($toCrerateBond as $bondProductIdToCreate){
-                    $bondsTypeRepository->createBond([$category->getProperty('id'), $bondProductIdToCreate]);
-                }
-    
-                if($toRemoveBond){
-                    $bondsTypeRepository->deleteAllBond($category->getProperty('id'), implode(",", $toRemoveBond));
-                }
-            }
-        }
+
+      return;
     }
 }
