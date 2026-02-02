@@ -30,7 +30,7 @@ class Account {
             header('Authorization: '.$JWT);
             return;
         }
-        Exception::throw("Refused login", 200);
+        Exception::throw("Refused login", 403);
     }
 
     public static function renewToken(string $JWT){
@@ -47,7 +47,7 @@ class Account {
         if($account){
             return $account;
         }
-        Exception::throw("Account not found", 200);
+        Exception::throw("Account not found", 404);
     }
 
     public function updateAccount(stdClass $content, int $id){
@@ -62,7 +62,7 @@ class Account {
             $accountRepository->updateAccount($account->getProperty('id'), $account->name, $account->phone, $account->email);
             return true;
         }
-        Exception::throw("Account not found", 200);
+        Exception::throw("Account not found", 404);
     }
 
 
@@ -90,6 +90,6 @@ class Account {
                 return $accountRepository->getUserLoginByEmailAndPassword($content->email, $content->password)->fetchObject(false, ModelAccount::class);
             }
         }
-        Exception::throw("Refused login", 200);
+        Exception::throw("Refused login", 403);
     }
 }
