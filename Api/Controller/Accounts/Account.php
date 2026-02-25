@@ -12,7 +12,20 @@ use stdClass;
 class Account {
 
     public function createAccount(stdClass $content){
-        return (new AccountRepository(new ModelAccount()))->createAccount($content);
+      (new AccountRepository(new ModelAccount()))->createAccount($content);
+      $user = self::returnAccountInstanceByLoginType($content);
+      if($user instanceof ModelAccount){
+          $payload = new JWTPayload($user->getProperty('id'), 
+                      [
+                          'id'=>$user->getProperty('id'),
+                          'name'=>$user->getProperty('name')
+                      ]
+                  );
+          //$payload->setExp(time()+3600);
+          $JWT = JWT::createToken($payload);
+          header('Authorization: '.$JWT);
+      }
+      return $user;
     }
 
 

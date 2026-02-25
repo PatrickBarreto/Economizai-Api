@@ -6,8 +6,8 @@ use Api\Controller\Accounts\Account;
 
 Http::post('/accounts', 
     function($request){
-        (new Account)->createAccount($request->getBody());
-        Http::response();
+        $result = (new Account)->createAccount($request->getBody());
+        Http::response($result);
     }
 );
 
