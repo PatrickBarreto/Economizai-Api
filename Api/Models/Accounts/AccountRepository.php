@@ -8,7 +8,10 @@ use stdClass;
 class AccountRepository extends Repository{
 
     public function createAccount(stdClass $content){
-        return $this->insert()->setFields(['name', 'phone', 'email', 'password'])->setValues([$content->name, (string)$content->phone, $content->email, md5($content->password)])->runQuery();
+      return $this->insert()
+        ->setFields(['name', 'phone', 'email', 'password'])
+        ->setValues([$content->name, (string)$content->phone, $content->email, md5($content->password)])
+        ->runQuery();
     }
 
 

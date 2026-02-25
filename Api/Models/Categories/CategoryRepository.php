@@ -4,6 +4,7 @@ namespace Api\Models\Categories;
 
 use Api\Common\Log\Log;
 use DataBase\RepositoryConnection\Repository;
+use DataBase\Query;
 use Http\Request\Request;
 use stdClass;
 
@@ -17,7 +18,20 @@ class CategoryRepository extends Repository{
     }
 
 
-    public function findAllUsersCategories(int $currentUserId, $fields = ['*']) {
+    public function findCategoriesProducts(int $currentUserId, $fields = ['*']) {
+        $result = (new Query)->exec('
+          SELECT '. implode(',', $fields). ' FROM  categories   
+          LEFT JOIN bond_categories_products ON bond_categories_products.categories_id = categories.id  
+          LEFT JOIN products ON products.id = bond_categories_products.products_id  AND products.accounts_id = '.$currentUserId.'
+          WHERE categories.accounts_id = 0 OR categories.accounts_id = '.$currentUserId.'  
+          GROUP BY categories.id, categories.name, products.id, products.type, products.name
+          ORDER BY categories.id DESC 
+        ');
+        return $result['statement'];
+    }
+  
+  
+    public function findCategories(int $currentUserId, $fields = ['*']) {
         return $this->select()->setFields($fields)
                             ->setWhere('accounts_id = 0 OR accounts_id = '. $currentUserId)->setOrder("id","DESC")
                             ->fetchAssoc(true);
@@ -26,7 +40,7 @@ class CategoryRepository extends Repository{
    
     public function findUsersCategoriesAndProducts(int $currentUserId, int $categoryId){
         return $this->select()->setFields(['products.id','products.name'])
-                    ->setInnerJoin(
+                    ->setLeftJoin(
                                 ['table'=>'categories'], 
                                 ['table'=>'bond_categories_products', 'ON'=>'categories_id']
                                 )

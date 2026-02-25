@@ -12,7 +12,7 @@ Http::post('/category',
 
 Http::get('/categories', 
             function($request){
-                $return = Category::findUsersCategories($request->currentUser);
+                $return = Category::findCategoriesProducts($request->currentUser);
                 Http::response($return);
             },['Auth']);
 

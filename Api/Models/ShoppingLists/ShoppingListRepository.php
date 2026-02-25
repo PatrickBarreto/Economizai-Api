@@ -10,9 +10,10 @@ class ShoppingListRepository extends Repository{
 
     public function createShoppingList(Request $request) {
         $content = $request->getBody();
-        return $this->insert()->setFields(['accounts_id', 'name', 'type'])
+        $result = $this->insert()->setFields(['accounts_id', 'name', 'type'])
                             ->setValues([$request->currentUser, $content->name, $content->type])
                             ->runQuery();
+        return $result->lastInsertId;
     }
 
 

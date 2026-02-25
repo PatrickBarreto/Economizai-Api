@@ -56,12 +56,60 @@ class Category {
 
     public static function findUsersCategories(int $currentUser){
         $categoryRepository = new CategoryRepository(new CategoryModel);
-        $categories = $categoryRepository->findAllUsersCategories($currentUser, ['id','accounts_id', 'name']);
+        $categories = $categoryRepository->findCategories($currentUser, ['id','accounts_id', 'name']);
 
         if($categories) {
             return $categories;
         }
         Exception::throw("Category not found", 404);
+    }
+
+    public static function findCategoriesProducts(int $currentUser){
+      $categoryRepository = new CategoryRepository(new CategoryModel);
+      $categories = $categoryRepository->findCategoriesProducts($currentUser, [
+        'categories.id as catId',
+        'categories.name as catName',
+        'products.id as prodId',
+        'products.type as prodType',
+        'products.name as prodName']);
+
+      $mappedCategories = [];
+
+      foreach ($categories as $row) {
+        $products = null;
+        $categories=null;
+        
+        [
+          'catId' => $catId,
+          'catName' => $catName,
+          'prodId' => $prodId,
+          'prodName' => $prodName, 
+          'prodType' => $prodType  
+        ] = $row;
+
+        $categories = [
+          'id' => $catId,
+          'name' => $catName,
+        ];
+
+        if(!isset($mappedCategories[$row["catId"]])){
+          $mappedCategories[$row["catId"]] = $categories;
+        }
+        
+        if($prodId){
+          $products = [
+            'id' => $prodId,
+            'name' => $prodName,
+            'type' => $prodType,
+          ];
+        }
+        $mappedCategories[$row["catId"]]['products'][] = $products;
+      }
+
+      if($mappedCategories) {
+          return array_values($mappedCategories);
+      }
+
     }
 
 
@@ -98,11 +146,8 @@ class Category {
       $bondCategoryBrandsRepository   = new CategoryBrandsRepository(new CategoryBrands);
       
       $body = (object)$request->getBody();
+
       $category = $categoryRepository->findCategory($request->currentUser, $request->getPathParams()['id'], ['id','accounts_id', 'name'], false);
-      
-      if($category->getProperty('accounts_id') == 0){
-        Exception::throw("invalid operation", 400);
-      }
 
       if($category instanceof CategoryModel) {
           
