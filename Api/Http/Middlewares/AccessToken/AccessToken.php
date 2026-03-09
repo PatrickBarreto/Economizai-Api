@@ -15,7 +15,7 @@ class AccessToken implements MiddlewareInterface {
             $accessTokenCrud = new Crud('app_access_tokens');
             $accessToken = $accessTokenCrud->select->setFields(['*'])->setWhere('business = "'.getenv('ENVIRONMENT').'"')->fetchObject(false);
 
-            if($accessToken->expires_in <= time() ){
+            if(isset($accessToken->expires_in) && $accessToken->expires_in <= time() ){
                 if($accessToken->expired == 0){
                     $accessTokenCrud->update->setSet(['expired' => '1'])->setWhere('id = '.$accessToken->id)->runQuery();
                 }
