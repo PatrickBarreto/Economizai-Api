@@ -16,7 +16,7 @@ CREATE TABLE app_access_tokens (
 	business VARCHAR(255),
     token_hash VARCHAR(33),
     created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP(),
-    expires_in BIGINT DEFAULT 0 NOT NULL,
+    expires_in TIMESTAMP DEFAULT NULL,
     expired ENUM('1','0') NOT NULL DEFAULT '0',
     UNIQUE(token_hash)
 );
